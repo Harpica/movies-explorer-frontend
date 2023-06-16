@@ -12,7 +12,7 @@
 .promo__title-container {
   box-sizing: border-box;
   min-height: 320px;
-  margin: 224px 0 240px;
+  margin: 82px 0 122px;
   background-image: url(../../images/Practicum.svg);
   background-repeat: no-repeat;
   background-position: 50%;
@@ -22,6 +22,7 @@
 }
 
 .promo__title {
+  box-sizing: border-box;
   max-width: 730px;
   text-align: center;
   font-weight: 400;
@@ -29,6 +30,12 @@
   line-height: 1.16;
   margin: 0;
   padding: 10px;
+}
+
+@media screen and (max-width: 1023px) {
+  .promo__title-container {
+    margin: 224px 0 240px;
+  }
 }
 
 @media screen and (max-width: 767px) {

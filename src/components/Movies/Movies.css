@@ -1,9 +1,11 @@
 .movies {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .movies__header {
-  max-width: 1280px;
-  width: 100%;
+  display: flex;
+  justify-content: center;
 }

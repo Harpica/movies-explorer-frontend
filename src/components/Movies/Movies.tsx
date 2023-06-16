@@ -1,5 +1,6 @@
 import './Movies.css';
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 const Movies = () => {
   return (
@@ -7,6 +8,7 @@ const Movies = () => {
       <section className='movies__header'>
         <Header type='authorized' />
       </section>
+      <Footer />
     </div>
   );
 };

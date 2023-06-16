@@ -3,7 +3,6 @@
 }
 
 .navigation__list {
-  width: 100%;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -29,21 +28,15 @@
   font-size: 13px;
   line-height: 1.38;
   color: black;
-  transition: opacity, background-color, scale 0.4s;
+  transition: opacity 0.4s;
 }
 
 .navigation__link:hover {
   opacity: 0.5;
 }
 
-.navigation__link.active {
+.navigation__link_active {
   font-weight: 500;
-}
-
-.navigation__link:focus-visible {
-  outline-style: groove;
-  outline-width: 2px;
-  outline-color: var(--color-green);
 }
 
 .navigation__link_type_signin {
@@ -70,6 +63,12 @@
   padding: 3px;
   border-radius: 40px;
   box-shadow: var(--shadow-small);
+  transition: background-color 0.4s;
+}
+
+.navigation__link_type_account:hover {
+  background-color: var(--color-green);
+  opacity: 1;
 }
 
 .navigation__item_margin-left_auto {

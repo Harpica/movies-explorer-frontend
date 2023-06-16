@@ -13,12 +13,26 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
       {type === 'authorized' && (
         <ul className='navigation__list navigation__list_authorized'>
           <li>
-            <NavLink to={ROUTES.movies} className='navigation__link'>
+            <NavLink
+              to={ROUTES.movies}
+              className={(isActive) =>
+                isActive
+                  ? 'navigation__link navigation__link_active'
+                  : 'navigation__link'
+              }
+            >
               Фильмы
             </NavLink>
           </li>
           <li>
-            <NavLink to={ROUTES.savedMovies} className='navigation__link'>
+            <NavLink
+              to={ROUTES.savedMovies}
+              className={(isActive) =>
+                isActive
+                  ? 'navigation__link navigation__link_active'
+                  : 'navigation__link'
+              }
+            >
               Сохраненные фильмы
             </NavLink>
           </li>

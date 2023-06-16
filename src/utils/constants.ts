@@ -6,3 +6,13 @@ export const ROUTES = {
   signin: '/signin',
   signup: '/signup',
 };
+
+export const TECHS = [
+  'HTML',
+  'CSS',
+  'JS',
+  'React',
+  'Git',
+  'Express.js',
+  'mongoDB',
+];

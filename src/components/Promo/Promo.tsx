@@ -3,7 +3,7 @@ import Header from '../Header/Header';
 
 const Promo = () => {
   return (
-    <section className='promo'>
+    <section className='promo' id='promo'>
       <div className='promo__container'>
         <Header type='unauthorized' />
         <div className='promo__title-container'>

@@ -16,3 +16,9 @@
   min-width: 320px;
   min-height: 100vh;
 }
+
+:focus-visible {
+  outline-style: groove;
+  outline-width: 2px;
+  outline-color: var(--color-green);
+}
