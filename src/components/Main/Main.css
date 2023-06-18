@@ -1,9 +1,6 @@
-.movies {
+.main {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-.movies__content {
-  flex: auto;
+  justify-content: space-between;
 }

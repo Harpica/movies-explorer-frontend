@@ -1,4 +1,9 @@
 .header {
+  display: flex;
+  justify-content: center;
+}
+
+.header__container {
   box-sizing: border-box;
   max-width: 1280px;
   width: 100%;
@@ -9,13 +14,13 @@
 }
 
 @media screen and (max-width: 1023px) {
-  .header {
+  .header__container {
     padding: 18px 30px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .header {
+  .header__container {
     padding: 18px 14px;
   }
 }

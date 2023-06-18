@@ -1,20 +1,20 @@
-import './Movies.css';
-import Header from '../Header/Header';
+import './SavedMovies.css';
 import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-const Movies = () => {
+const SavedMovies = () => {
   return (
-    <div className='movies'>
+    <div className='saved-movies'>
       <Header type='authorized' />
-      <div className='movies__content'>
+      <div className='saved-movies__content'>
         <SearchForm />
-        <MoviesCardList type='all' />
+        <MoviesCardList type='saved' />
       </div>
       <Footer />
     </div>
   );
 };
 
-export default Movies;
+export default SavedMovies;

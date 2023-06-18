@@ -9,8 +9,10 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ type }) => {
   return (
     <header className='header'>
-      <Logo />
-      <Navigation type={type} />
+      <div className='header__container'>
+        <Logo />
+        <Navigation type={type} />
+      </div>
     </header>
   );
 };
