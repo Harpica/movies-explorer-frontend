@@ -15,7 +15,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
           <li>
             <NavLink
               to={ROUTES.movies}
-              className={(isActive) =>
+              className={({ isActive }) =>
                 isActive
                   ? 'navigation__link navigation__link_active'
                   : 'navigation__link'
@@ -27,7 +27,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
           <li>
             <NavLink
               to={ROUTES.savedMovies}
-              className={(isActive) =>
+              className={({ isActive }) =>
                 isActive
                   ? 'navigation__link navigation__link_active'
                   : 'navigation__link'

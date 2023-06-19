@@ -12,13 +12,14 @@ const MoviesCardList: React.FC<MoviesCardListProps> = ({ type }) => {
       <div className='movies-list__container'>
         <ul className='movies-list__list'>
           {CARDS.map((card, i) => {
-            if (card.isSaved) {
-              return (
-                <li className='movies-list__item'>
-                  <MoviesCard {...card} type={type} />
-                </li>
-              );
+            if (!card.isSaved && type === 'saved') {
+              return;
             }
+            return (
+              <li className='movies-list__item'>
+                <MoviesCard {...card} type={type} />
+              </li>
+            );
           })}
         </ul>
         {type === 'all' && (

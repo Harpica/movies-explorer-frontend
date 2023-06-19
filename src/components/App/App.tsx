@@ -4,6 +4,7 @@ import Main from '../Main/Main';
 import { ROUTES } from '../../utils/constants';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import Profile from '../Profile/Profile';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path={ROUTES.main} element={<Main />} />
         <Route path={ROUTES.movies} element={<Movies />} />
         <Route path={ROUTES.savedMovies} element={<SavedMovies />} />
+        <Route path={ROUTES.profile} element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
