@@ -1,53 +1,58 @@
 import './Navigation.css';
 import { NavLink } from 'react-router-dom';
-import Account from '../../images/Account.svg';
 import { ROUTES } from '../../utils/constants';
+import AccountLink from '../AccountLogo/AccountLink';
 
 interface NavigationProps {
   type: 'authorized' | 'unauthorized';
+  openMenu: () => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ type }) => {
+const Navigation: React.FC<NavigationProps> = ({ type, openMenu }) => {
   return (
     <nav className='navigation'>
       {type === 'authorized' && (
-        <ul className='navigation__list navigation__list_authorized'>
-          <li>
-            <NavLink
-              to={ROUTES.movies}
-              className={({ isActive }) =>
-                isActive
-                  ? 'navigation__link navigation__link_active'
-                  : 'navigation__link'
-              }
-            >
-              Фильмы
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to={ROUTES.savedMovies}
-              className={({ isActive }) =>
-                isActive
-                  ? 'navigation__link navigation__link_active'
-                  : 'navigation__link'
-              }
-            >
-              Сохраненные фильмы
-            </NavLink>
-          </li>
-          <li className='navigation__item_margin-left_auto'>
-            <NavLink
-              to={ROUTES.profile}
-              className='navigation__link navigation__link_type_account'
-            >
-              <p className='navigation__link-text'>Аккаунт</p>
-              <div className='account-image__container'>
-                <img src={Account} alt='Лого аккаунт' />
-              </div>
-            </NavLink>
-          </li>
-        </ul>
+        <>
+          <button
+            type='button'
+            className='navigation__burger'
+            onClick={openMenu}
+          />
+          <ul className='navigation__list navigation__list_authorized'>
+            <li>
+              <NavLink
+                to={ROUTES.movies}
+                className={({ isActive }) =>
+                  isActive
+                    ? 'navigation__link navigation__link_active'
+                    : 'navigation__link'
+                }
+              >
+                Фильмы
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={ROUTES.savedMovies}
+                className={({ isActive }) =>
+                  isActive
+                    ? 'navigation__link navigation__link_active'
+                    : 'navigation__link'
+                }
+              >
+                Сохраненные фильмы
+              </NavLink>
+            </li>
+            <li className='navigation__item_margin-left_auto'>
+              <NavLink
+                to={ROUTES.profile}
+                className='navigation__link navigation__link_type_account'
+              >
+                <AccountLink />
+              </NavLink>
+            </li>
+          </ul>
+        </>
       )}
       {type === 'unauthorized' && (
         <ul className='navigation__list navigation__list_unauthorized'>

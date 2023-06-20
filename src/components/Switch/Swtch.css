@@ -1,6 +1,12 @@
 .switch {
   display: flex;
   flex-direction: row;
+}
+
+.switch__label {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 12px;
@@ -10,7 +16,14 @@
 }
 
 .switch__input {
-  display: none;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin-right: -1px;
+}
+
+.switch__input:focus-visible + .switch__label {
+  outline: 2px groove var(--color-green);
 }
 
 .switch__slider {
@@ -34,11 +47,11 @@
   transition: 0.4s;
 }
 
-.switch__input:checked + .switch__slider {
+.switch__input:checked + .switch__label .switch__slider {
   background-color: var(--color-green);
 }
 
-.switch__input:checked + .switch__slider::before {
+.switch__input:checked + .switch__label .switch__slider::before {
   transform: translateX(16px);
 }
 
