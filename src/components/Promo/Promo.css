@@ -16,6 +16,7 @@
   background-image: url(../../images/Practicum.svg);
   background-repeat: no-repeat;
   background-position: 50%;
+  background-size: contain;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,6 +31,7 @@
   line-height: 1.16;
   margin: 0;
   padding: 10px;
+  letter-spacing: -0.04em;
 }
 
 @media screen and (max-width: 1023px) {
@@ -42,13 +44,11 @@
   .promo__title {
     font-size: 31px;
     line-height: 1.26;
+    padding: 0;
   }
 
   .promo__title-container {
     margin: 142px 0 180px;
-  }
-
-  .promo__title-container {
-    background-size: 248px;
+    min-height: 248px;
   }
 }

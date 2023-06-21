@@ -11,12 +11,20 @@ const Footer = () => {
           <p className='footer__year'>&copy; 2023</p>
           <ul className='footer__list'>
             <li className='footer__item'>
-              <a href='#' className='footer__link'>
+              <a
+                href='https://practicum.yandex.ru/'
+                target='_blank'
+                className='footer__link'
+              >
                 Яндекс.Практикум
               </a>
             </li>
             <li className='footer__item'>
-              <a href='#' className='footer__link'>
+              <a
+                href='https://github.com/Harpica/movies-explorer-frontend'
+                target='_blank'
+                className='footer__link'
+              >
                 Github
               </a>
             </li>

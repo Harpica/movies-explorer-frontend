@@ -18,7 +18,11 @@ const AboutMe = () => {
               получила работу над благотворительным проектом для
               онлайн-тестирования школьников как фуллстак-разработчик.
             </p>
-            <a href='https://github.com/Harpica' className='about-me__github'>
+            <a
+              href='https://github.com/Harpica'
+              target='_blank'
+              className='about-me__github'
+            >
               Github
             </a>
           </div>
@@ -27,19 +31,31 @@ const AboutMe = () => {
         <h4 className='about-me__portfolio-title'>Портфолио</h4>
         <ul className='about-me__portfolio-list'>
           <li className='about-me__project-item'>
-            <a href='#' className='about-me__project-link'>
+            <a
+              href='https://harpica.github.io/hotel-booking/'
+              target='_blank'
+              className='about-me__project-link'
+            >
               <p className='about-me__project-name'>Статичный сайт</p>
               <p className='about-me__project-arrow'>&#8599;</p>
             </a>
           </li>
           <li className='about-me__project-item'>
-            <a href='#' className='about-me__project-link'>
+            <a
+              href='https://harpica.github.io/russian-travel/'
+              target='_blank'
+              className='about-me__project-link'
+            >
               <p className='about-me__project-name'>Адаптивный сайт</p>
               <p className='about-me__project-arrow'>&#8599;</p>
             </a>
           </li>
           <li className='about-me__project-item'>
-            <a href='#' className='about-me__project-link'>
+            <a
+              href='https://mesto.harpica.nomoredomains.monster/'
+              target='_blank'
+              className='about-me__project-link'
+            >
               <p className='about-me__project-name'>
                 Одностраничное приложение
               </p>

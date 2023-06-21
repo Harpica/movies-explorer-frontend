@@ -9,6 +9,7 @@
 }
 
 .movies-card__image {
+  display: block;
   width: 100%;
   height: 203px;
   object-fit: cover;
@@ -39,6 +40,7 @@
 }
 
 .movies-card__like {
+  height: 12px;
   padding: 0;
   border: none;
   cursor: pointer;
@@ -80,6 +82,7 @@
   }
   .movies-card__container {
     padding: 14px;
+    gap: 14px;
   }
 }
 
@@ -89,5 +92,16 @@
   }
   .movies-card__image {
     height: 168px;
+  }
+  .movies-card__title {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .movies-card__container {
+    gap: 14px;
+  }
+  .movies-card__duration {
+    font-size: 10px;
+    line-height: 12px;
   }
 }

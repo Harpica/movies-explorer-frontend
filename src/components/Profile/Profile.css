@@ -31,6 +31,10 @@
   text-align: center;
 }
 
+.profile__data-list {
+  margin: 0;
+}
+
 .profile__data-pair {
   width: 100%;
   display: flex;
@@ -98,7 +102,7 @@
   }
   .profile__data-container {
     gap: 96px;
-    padding-bottom: 210px;
+    padding-bottom: 194px;
   }
 }
 
@@ -111,5 +115,9 @@
   .profile__data-container {
     gap: 80px;
     padding-bottom: 0;
+  }
+  .profile__button {
+    font-size: 12px;
+    line-height: 15px;
   }
 }

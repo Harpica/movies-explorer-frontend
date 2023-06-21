@@ -59,5 +59,6 @@
   .switch {
     font-size: 11px;
     line-height: 1.64;
+    letter-spacing: -0.04em;
   }
 }

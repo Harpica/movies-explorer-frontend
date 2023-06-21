@@ -7,7 +7,7 @@
 
 .auth__container {
   max-width: 396px;
-  min-height: 557px;
+  min-height: 560px;
   width: 100%;
   margin: 70px 30px;
   display: flex;
@@ -104,5 +104,13 @@
     line-height: 29px;
     margin: 50px 0 80px;
     text-align: center;
+  }
+  .form__submit {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .form__link-container {
+    font-size: 12px;
+    line-height: 15px;
   }
 }

@@ -12,11 +12,15 @@
 
 .about-project__description-list {
   margin: 0;
-  padding: 70px 0;
+  padding: 70px 0 110px;
   list-style: none;
   display: flex;
   flex-direction: row;
   gap: 40px;
+}
+
+.about-project__description-item {
+  flex: 1;
 }
 
 .about-project__description-title {
@@ -39,7 +43,7 @@
   padding: 0;
   list-style: none;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 4fr;
 }
 
 .about-project__diagram-section {
@@ -79,12 +83,16 @@
     padding: 90px 50px;
   }
   .about-project__description-list {
-    gap: 30px;
+    gap: 35px;
+    padding: 70px 0 93px;
   }
   .about-project__description {
     margin-top: 22px;
     font-size: 12px;
     line-height: 1.5;
+  }
+  .about-project__diagram {
+    grid-template-columns: 1fr 3fr;
   }
 }
 
@@ -102,9 +110,17 @@
     font-size: 11px;
     line-height: 1.45;
   }
+  .about-project__description-title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .about-project__diagram-section {
+    gap: 10px;
+  }
   .about-project__diagram-time {
     font-size: 11px;
     line-height: 13px;
+    padding: 11px 10px;
   }
   .about-project__diagram-description {
     font-weight: 400;

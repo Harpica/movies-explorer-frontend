@@ -7,7 +7,7 @@ const AboutProject = () => {
       <div className='about-project__container'>
         <SectionTitle title='О проекте' />
         <ul className='about-project__description-list'>
-          <li>
+          <li className='about-project__description-item'>
             <h3 className='about-project__description-title'>
               Дипломный проект включал 5 этапов
             </h3>
@@ -16,7 +16,7 @@ const AboutProject = () => {
               функциональности и финальные доработки.
             </p>
           </li>
-          <li>
+          <li className='about-project__description-item'>
             <h3 className='about-project__description-title'>
               На выполнение диплома ушло 5 недель
             </h3>
