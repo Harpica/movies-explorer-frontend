@@ -11,6 +11,7 @@ const SearchForm = () => {
             id='search'
             className='search__input'
             placeholder='Фильм'
+            required
           />
           <button type='submit' className='search__submit'></button>
         </div>
