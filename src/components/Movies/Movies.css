@@ -6,4 +6,6 @@
 
 .movies__content {
   flex: auto;
+  display: grid;
+  grid-template-rows: min-content 1fr;
 }

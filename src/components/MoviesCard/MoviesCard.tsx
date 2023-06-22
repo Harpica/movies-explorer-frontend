@@ -17,7 +17,10 @@ const MoviesCard: React.FC<MoviesCardProps> = ({
   type,
 }) => {
   return (
-    <div className={`movies-card ${type === 'saved' && 'movies-card_saved'}`}>
+    <div
+      className={`movies-card ${type === 'saved' && 'movies-card_saved'}`}
+      tabIndex={0}
+    >
       <img src={image} alt={title} className='movies-card__image' />
       <div className='movies-card__container'>
         <div className='movies-card__title-container'>
@@ -28,7 +31,11 @@ const MoviesCard: React.FC<MoviesCardProps> = ({
             </button>
           )}
           {type === 'saved' && (
-            <button type='button' className='movies-card__delete' />
+            <button
+              type='button'
+              className='movies-card__delete'
+              tabIndex={0}
+            />
           )}
         </div>
         <p className='movies-card__duration'>{duration}</p>
