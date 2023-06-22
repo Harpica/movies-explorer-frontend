@@ -1,0 +1,130 @@
+.about-project {
+  display: flex;
+  justify-content: center;
+}
+
+.about-project__container {
+  box-sizing: border-box;
+  max-width: 1280px;
+  width: 100%;
+  padding: 110px 70px;
+}
+
+.about-project__description-list {
+  margin: 0;
+  padding: 70px 0 110px;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.about-project__description-item {
+  flex: 1;
+}
+
+.about-project__description-title {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.about-project__description {
+  margin: 26px 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.43;
+}
+
+.about-project__diagram {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.about-project__diagram-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.about-project__diagram-time {
+  padding: 9px 0;
+  margin: 0;
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.about-project__diagram-time_color_black {
+  background-color: black;
+  color: white;
+}
+.about-project__diagram-time_color_gray {
+  background-color: var(--color-gray-f2);
+}
+
+.about-project__diagram-description {
+  margin: 0;
+  text-align: center;
+  color: var(--color-gray-text);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.21;
+}
+
+@media screen and (max-width: 1023px) {
+  .about-project__container {
+    padding: 90px 50px;
+  }
+  .about-project__description-list {
+    gap: 35px;
+    padding: 70px 0 93px;
+  }
+  .about-project__description {
+    margin-top: 22px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .about-project__diagram {
+    grid-template-columns: 1fr 3fr;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-project__container {
+    padding: 70px 18px;
+  }
+  .about-project__description-list {
+    flex-direction: column;
+    gap: 56px;
+    padding: 60px 0;
+  }
+  .about-project__description {
+    margin-top: 16px;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .about-project__description-title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .about-project__diagram-section {
+    gap: 10px;
+  }
+  .about-project__diagram-time {
+    font-size: 11px;
+    line-height: 13px;
+    padding: 11px 10px;
+  }
+  .about-project__diagram-description {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+  }
+}

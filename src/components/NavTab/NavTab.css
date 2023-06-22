@@ -1,0 +1,42 @@
+.navtab {
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.navtab__ul-container {
+  box-sizing: border-box;
+  max-width: 1280px;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 40px;
+  padding: 24px;
+}
+
+.navtab__hashlink {
+  color: white;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.23;
+  transition: opacity 0.4s;
+}
+
+.navtab__hashlink:hover {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 767px) {
+  .navtab__hashlink {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .navtab__ul-container {
+    gap: 24px;
+  }
+}

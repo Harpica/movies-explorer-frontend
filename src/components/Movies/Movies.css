@@ -1,0 +1,9 @@
+.movies {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.movies__content {
+  flex: auto;
+}
