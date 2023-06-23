@@ -1,24 +1,31 @@
 export default class ServerInterface {
   protected url: string;
   protected headers: { [key: string]: string };
+  private credentials: 'include' | undefined;
 
-  constructor(url: string, headers: { [key: string]: string }) {
+  constructor(
+    url: string,
+    headers: { [key: string]: string },
+    credentials?: 'include'
+  ) {
     this.url = url;
     this.headers = headers;
+    this.credentials = credentials;
   }
 
-  _request<T>(url: string, options?: RequestInit): Promise<T> {
-    return fetch(url, { ...options, credentials: 'include' }).then(
-      this._checkResponse
-    );
+  protected async request<T>(url: string, options?: RequestInit): Promise<T> {
+    const res = await fetch(url, { ...options, credentials: this.credentials });
+    return this.checkResponse(res);
   }
-  _checkResponse(res: Response) {
+  protected async checkResponse(res: Response) {
     if (res.ok) {
       return res.json();
     }
     return Promise.reject({
       status: res.status,
-      message: res.json().then((data: { message: string }) => data.message),
+      message: await res
+        .json()
+        .then((data: { message: string }) => data.message),
     });
   }
 }

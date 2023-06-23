@@ -2,18 +2,36 @@ import HeartIcon from '../../svgs/HeartIcon';
 import './MoviesCard.css';
 
 interface MoviesCardProps {
+  country: string;
+  director: string;
+  duration: number;
+  year: string;
+  description: string;
   image: string;
-  title: string;
-  duration: string;
-  isSaved: boolean;
+  trailerLink: string;
+  thumbnail: string;
+  movieId: number;
+  nameRU: string;
+  nameEN: string;
+  _id?: string;
+  owner?: string;
   type: 'saved' | 'all';
 }
 
 const MoviesCard: React.FC<MoviesCardProps> = ({
-  image,
-  title,
+  country,
+  director,
   duration,
-  isSaved,
+  year,
+  description,
+  image,
+  trailerLink,
+  thumbnail,
+  movieId,
+  nameRU,
+  nameEN,
+  _id,
+  owner,
   type,
 }) => {
   return (
@@ -21,13 +39,17 @@ const MoviesCard: React.FC<MoviesCardProps> = ({
       className={`movies-card ${type === 'saved' && 'movies-card_saved'}`}
       tabIndex={0}
     >
-      <img src={image} alt={title} className='movies-card__image' />
+      <img
+        src={`https://api.nomoreparties.co/${image}`}
+        alt={nameRU}
+        className='movies-card__image'
+      />
       <div className='movies-card__container'>
         <div className='movies-card__title-container'>
-          <h3 className='movies-card__title'>{title}</h3>
+          <h3 className='movies-card__title'>{nameRU}</h3>
           {type === 'all' && (
             <button type='button' className='movies-card__like'>
-              <HeartIcon isActive={isSaved} />
+              <HeartIcon isActive={owner !== undefined} />
             </button>
           )}
           {type === 'saved' && (

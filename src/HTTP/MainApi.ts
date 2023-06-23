@@ -4,58 +4,62 @@ import ServerInterface from './Api';
 
 class MainApi extends ServerInterface {
   constructor(url: string, headers: { [key: string]: string }) {
-    super(url, headers);
+    super(url, headers, 'include');
   }
 
-  registerUser(name: string, email: string, password: string) {
-    return this._request<User>(`${this.url}/signup`, {
+  async registerUser(name: string, email: string, password: string) {
+    return this.request<{ user: User }>(`${this.url}/signup`, {
       method: 'POST',
       headers: this.headers,
       body: JSON.stringify({ name: name, email: email, password: password }),
-    });
+    }).then((data) => data.user);
   }
-  loginUser(email: string, password: string) {
-    return this._request<User>(`${this.url}/signin`, {
+  async loginUser(email: string, password: string) {
+    return this.request<{ user: User }>(`${this.url}/signin`, {
       method: 'POST',
       headers: this.headers,
       body: JSON.stringify({ email: email, password: password }),
-    });
+    }).then((data) => data.user);
   }
-  logoutUser() {
-    return this._request<{ message: string }>(`${this.url}/logout`);
+  async logoutUser() {
+    return this.request<{ message: string }>(`${this.url}/logout`);
   }
-  getUserData() {
-    const request = this._request<User>(`${this.url}/users/me`, {
+  async getUserData() {
+    const request = this.request<{ user: User }>(`${this.url}/users/me`, {
       method: 'GET',
       headers: this.headers,
-    });
+    }).then((data) => data.user);
     return request;
   }
-  updateUserData(name: string, email: string) {
-    return this._request<User>(`${this.url}/users/me`, {
+  async updateUserData(name: string, email: string) {
+    const data = await this.request<{ user: User }>(`${this.url}/users/me`, {
       method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({ name: name, email: email }),
     });
+    return data.user;
   }
-  getUserSavedMovies() {
-    return this._request<Array<SavedMovie>>(`${this.url}/movies`, {
+  async getUserSavedMovies() {
+    return this.request<{ movies: Array<SavedMovie> }>(`${this.url}/movies`, {
       method: 'GET',
       headers: this.headers,
-    });
+    }).then((data) => data.movies);
   }
-  saveMovie(movie: Movie, userId: string) {
-    return this._request<SavedMovie>(`${this.url}/movies`, {
+  async saveMovie(movie: Movie, userId: string) {
+    return this.request<{ movie: SavedMovie }>(`${this.url}/movies`, {
       method: 'POST',
       headers: this.headers,
       body: JSON.stringify({ ...movie, owner: userId }),
-    });
+    }).then((data) => data.movie);
   }
-  deleteMovie(movieId: string) {
-    return this._request<SavedMovie>(`${this.url}/movies/${movieId}`, {
-      method: 'DELETE',
-      headers: this.headers,
-    });
+  async deleteMovie(movieId: string) {
+    return this.request<{ movie: SavedMovie }>(
+      `${this.url}/movies/${movieId}`,
+      {
+        method: 'DELETE',
+        headers: this.headers,
+      }
+    ).then((data) => data.movie);
   }
 }
 

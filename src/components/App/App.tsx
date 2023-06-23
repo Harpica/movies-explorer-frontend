@@ -8,13 +8,34 @@ import NotFound from '../NotFound/NotFound';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
+import { SavedMovie } from '../../utils/types';
+import mainApi from '../../HTTP/MainApi';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(DEFAULT_USER);
   // const [isAuth, setIsAuth] = useState<boolean>(currentUser.name !== 'Default');
   const [isAuth, setIsAuth] = useState<boolean>(true);
+  const [savedMovies, setSavedMovies] = useState<Map<number, SavedMovie>>(
+    new Map<number, SavedMovie>()
+  );
+
+  useEffect(() => {
+    if (isAuth === true) {
+      (async () => {
+        try {
+          const movies = await mainApi.getUserSavedMovies();
+          movies.forEach((movie) => {
+            savedMovies.set(movie.movieId, movie);
+          });
+          setSavedMovies(new Map<number, SavedMovie>(savedMovies));
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    }
+  }, [isAuth]);
 
   return (
     <BrowserRouter>
@@ -27,7 +48,10 @@ function App() {
             path={ROUTES.movies}
             element={
               <ProtectedRouteElement statement={isAuth} redirect={ROUTES.main}>
-                <Movies />
+                <Movies
+                  savedMovies={savedMovies}
+                  setSavedMovies={setSavedMovies}
+                />
               </ProtectedRouteElement>
             }
           />
@@ -35,7 +59,10 @@ function App() {
             path={ROUTES.savedMovies}
             element={
               <ProtectedRouteElement statement={isAuth} redirect={ROUTES.main}>
-                <SavedMovies />
+                <SavedMovies
+                  savedMovies={savedMovies}
+                  setSavedMovies={setSavedMovies}
+                />
               </ProtectedRouteElement>
             }
           />

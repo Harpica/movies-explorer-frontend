@@ -44,12 +44,7 @@ const Navigation: React.FC<NavigationProps> = ({ type, openMenu }) => {
               </NavLink>
             </li>
             <li className='navigation__item_margin-left_auto'>
-              <NavLink
-                to={ROUTES.profile}
-                className='navigation__link navigation__link_type_account'
-              >
-                <AccountLink />
-              </NavLink>
+              <AccountLink />
             </li>
           </ul>
         </>

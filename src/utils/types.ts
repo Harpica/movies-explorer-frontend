@@ -4,21 +4,43 @@ export interface User {
   email: string;
 }
 
-export interface Movie {
-  _id: string;
+export interface MovieFromApi {
+  id: number;
   country: string;
   director: string;
   duration: number;
   year: string;
   description: string;
-  image: string;
+  image: {
+    url: string;
+  };
   trailerLink: string;
   thumbnail: string;
-  movieId: number;
   nameRU: string;
   nameEN: string;
 }
 
-export interface SavedMovie extends Movie {
-  owner: string;
+export interface Movie extends Omit<MovieFromApi, 'image'> {
+  image: string;
+  movieId: number;
 }
+
+export interface SavedMovie extends Movie {
+  _id: string;
+  owner: string;
+  movieId: number;
+}
+
+export function typeOfSavedMovie(movie: Movie | SavedMovie) {
+  if ('owner' in movie) {
+    return true;
+  }
+  return false;
+}
+
+export interface SearchQuery {
+  searchValue: string;
+  isShort: boolean;
+}
+
+export type SwitchValue = 'true' | 'false';
