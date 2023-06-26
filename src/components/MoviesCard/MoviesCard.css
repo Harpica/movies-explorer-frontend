@@ -97,10 +97,13 @@
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 800px) {
   .movies-card {
     width: 300px;
   }
+}
+
+@media screen and (max-width: 767px) {
   .movies-card__image {
     height: 168px;
   }
