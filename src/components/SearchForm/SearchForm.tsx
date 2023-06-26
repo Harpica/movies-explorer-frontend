@@ -5,20 +5,32 @@ import './SearchForm.css';
 
 interface SearchFormProps {
   onSubmit: (searchQuery: SearchQuery) => Promise<void> | void;
+  onSwitcherChange: (searchQuery: SearchQuery) => void;
   defaultValues?: {
     [key: string]: string;
   };
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, defaultValues }) => {
+const SearchForm: React.FC<SearchFormProps> = ({
+  onSubmit,
+  onSwitcherChange,
+  defaultValues,
+}) => {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormWithValidation(defaultValues);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({
-      searchValue: values.searchValue,
+      searchValue: values.searchValue || '',
       isShort: values.isShort === 'true',
+    });
+  };
+  const handleSwitcherChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange(e);
+    onSwitcherChange({
+      searchValue: values.searchValue || '',
+      isShort: e.target.value === 'true',
     });
   };
 
@@ -33,6 +45,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, defaultValues }) => {
         <div className='search__input-container'>
           <input
             type='text'
+            pattern='[\wа-я\sё0-9\-\.,!?]+'
             id='search'
             name='searchValue'
             className='search__input'
@@ -43,7 +56,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, defaultValues }) => {
           <button type='submit' className='search__submit' />
         </div>
         <Switch
-          onChange={handleChange}
+          onChange={handleSwitcherChange}
           name='isShort'
           initialState={(defaultValues?.isShort as SwitchValue) || 'false'}
         />

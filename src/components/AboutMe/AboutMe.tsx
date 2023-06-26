@@ -21,6 +21,7 @@ const AboutMe = () => {
             <a
               href='https://github.com/Harpica'
               target='_blank'
+              rel='noreferrer'
               className='about-me__github'
             >
               Github
@@ -34,6 +35,7 @@ const AboutMe = () => {
             <a
               href='https://harpica.github.io/hotel-booking/'
               target='_blank'
+              rel='noreferrer'
               className='about-me__project-link'
             >
               <p className='about-me__project-name'>Статичный сайт</p>
@@ -44,6 +46,7 @@ const AboutMe = () => {
             <a
               href='https://harpica.github.io/russian-travel/'
               target='_blank'
+              rel='noreferrer'
               className='about-me__project-link'
             >
               <p className='about-me__project-name'>Адаптивный сайт</p>
@@ -54,6 +57,7 @@ const AboutMe = () => {
             <a
               href='https://mesto.harpica.nomoredomains.monster/'
               target='_blank'
+              rel='noreferrer'
               className='about-me__project-link'
             >
               <p className='about-me__project-name'>

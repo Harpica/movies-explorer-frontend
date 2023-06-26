@@ -45,21 +45,33 @@ class MainApi extends ServerInterface {
       headers: this.headers,
     }).then((data) => data.movies);
   }
-  async saveMovie(movie: Movie, userId: string) {
+  async saveMovie(movie: Movie) {
     return this.request<{ movie: SavedMovie }>(`${this.url}/movies`, {
       method: 'POST',
       headers: this.headers,
-      body: JSON.stringify({ ...movie, owner: userId }),
+      body: JSON.stringify({
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: movie.image,
+        trailerLink: movie.trailerLink,
+        thumbnail: movie.thumbnail || movie.trailerLink,
+        movieId: movie.movieId,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+      }),
     }).then((data) => data.movie);
   }
-  async deleteMovie(movieId: string) {
-    return this.request<{ movie: SavedMovie }>(
-      `${this.url}/movies/${movieId}`,
+  async deleteMovie(id: string) {
+    return this.request<{ deletedMovieId: string }>(
+      `${this.url}/movies/${id}`,
       {
         method: 'DELETE',
         headers: this.headers,
       }
-    ).then((data) => data.movie);
+    ).then((data) => data.deletedMovieId);
   }
 }
 

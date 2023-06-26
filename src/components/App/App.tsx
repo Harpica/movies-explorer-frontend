@@ -26,10 +26,14 @@ function App() {
       (async () => {
         try {
           const movies = await mainApi.getUserSavedMovies();
-          movies.forEach((movie) => {
-            savedMovies.set(movie.movieId, movie);
-          });
-          setSavedMovies(new Map<number, SavedMovie>(savedMovies));
+          console.log(movies);
+          if (movies.length !== 0) {
+            const moviesMap = new Map<number, SavedMovie>();
+            movies.forEach((movie) => {
+              moviesMap.set(movie.movieId, movie);
+            });
+            setSavedMovies(moviesMap);
+          }
         } catch (err) {
           console.log(err);
         }
@@ -60,7 +64,7 @@ function App() {
             element={
               <ProtectedRouteElement statement={isAuth} redirect={ROUTES.main}>
                 <SavedMovies
-                  savedMovies={savedMovies}
+                  savedMoviesArray={Array.from(savedMovies.values())}
                   setSavedMovies={setSavedMovies}
                 />
               </ProtectedRouteElement>

@@ -6,7 +6,8 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import { Movie, SavedMovie, SearchQuery } from '../../utils/types';
 import React, { useCallback, useEffect, useState } from 'react';
-import useSearchMovies from '../../hooks/useSearchMovies';
+import Notification from '../Notification/Notification';
+import useMoviesWithPagination from '../../hooks/useMoviesWithPagination';
 
 interface MoviesProps {
   savedMovies: Map<number, SavedMovie>;
@@ -14,9 +15,16 @@ interface MoviesProps {
 }
 
 const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
-  const { getMovies, isLoading } = useSearchMovies();
   const [movies, setMovies] = useState<Array<Movie | SavedMovie>>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const {
+    searchMoviesApi,
+    isLoading,
+    notificationMessage,
+    filteredMovies,
+    filterMovies,
+    showedMovies,
+    getMoreMovies,
+  } = useMoviesWithPagination(movies);
 
   const getMoviesWithLikes = useCallback(
     (movies: Array<Movie>) => {
@@ -40,12 +48,9 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
   }, [getMoviesWithLikes]);
 
   async function onSubmitSearchQuery(searchQuery: SearchQuery) {
-    try {
-      setErrorMessage('');
-      const movies = await getMovies(searchQuery);
-      setMovies(getMoviesWithLikes(movies));
-    } catch (err) {
-      setErrorMessage('Что-то пошло не так :С');
+    const newMovies = await searchMoviesApi(searchQuery);
+    if (newMovies !== null) {
+      setMovies(getMoviesWithLikes(newMovies));
     }
   }
 
@@ -55,16 +60,31 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
       <main className='movies__content'>
         <SearchForm
           onSubmit={onSubmitSearchQuery}
+          onSwitcherChange={filterMovies}
           defaultValues={JSON.parse(window.localStorage.getItem('query') || '')}
         />
-        {errorMessage !== '' && <p>{errorMessage}</p>}
+        <Notification message={notificationMessage} />
         {isLoading ? (
           <Preloader />
         ) : (
           <MoviesCardList
             type='all'
-            movies={movies}
+            movies={showedMovies}
             setSavedMovies={setSavedMovies}
+            getMoreMoviesButton={
+              <React.Fragment>
+                {filteredMovies.length !== 0 &&
+                  filteredMovies.length !== showedMovies.length && (
+                    <button
+                      type='button'
+                      className='movies-list__load'
+                      onClick={getMoreMovies}
+                    >
+                      Еще
+                    </button>
+                  )}
+              </React.Fragment>
+            }
           />
         )}
       </main>

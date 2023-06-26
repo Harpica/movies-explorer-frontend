@@ -1,10 +1,13 @@
 .movies-card {
+  text-decoration: none;
+  display: block;
   width: 364px;
+  color: black;
   box-shadow: var(--shadow-main);
   background-color: var(--color-white-fd);
 }
 
-.movies-card_saved {
+.movies-card:hover {
   cursor: pointer;
 }
 

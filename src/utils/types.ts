@@ -13,19 +13,24 @@ export interface MovieFromApi {
   description: string;
   image: {
     url: string;
+    formats: {
+      thumbnail: {
+        url: string;
+      };
+    };
   };
   trailerLink: string;
-  thumbnail: string;
   nameRU: string;
   nameEN: string;
 }
 
-export interface Movie extends Omit<MovieFromApi, 'image'> {
+export interface Movie extends Omit<MovieFromApi, 'image' | 'id'> {
   image: string;
   movieId: number;
+  thumbnail: string;
 }
 
-export interface SavedMovie extends Movie {
+export interface SavedMovie extends Omit<Movie, 'id'> {
   _id: string;
   owner: string;
   movieId: number;

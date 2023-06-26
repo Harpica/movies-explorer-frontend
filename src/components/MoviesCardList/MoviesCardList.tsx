@@ -1,62 +1,57 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import { CARDS } from '../../utils/constants';
 import { Movie, SavedMovie, typeOfSavedMovie } from '../../utils/types';
-import { useState } from 'react';
+import mainApi from '../../HTTP/MainApi';
 
 interface MoviesCardListProps {
   type: 'saved' | 'all';
   movies: Array<SavedMovie | Movie>;
   setSavedMovies: React.Dispatch<React.SetStateAction<Map<number, SavedMovie>>>;
+  getMoreMoviesButton?: React.ReactElement;
 }
 
 const MoviesCardList: React.FC<MoviesCardListProps> = ({
   type,
   movies,
   setSavedMovies,
+  getMoreMoviesButton,
 }) => {
-  const [showedMovies, setShowedMovies] = useState<Array<SavedMovie | Movie>>(
-    () => {
-      if (type === 'all') {
-        return movies.slice(0, 12);
+  const toggleSaveMovie = async (movie: Movie | SavedMovie) => {
+    try {
+      if (typeOfSavedMovie(movie) === true) {
+        await mainApi.deleteMovie((movie as SavedMovie)._id);
+        setSavedMovies((s) => {
+          s.delete(movie.movieId);
+          return new Map(s);
+        });
+      } else {
+        const newMovie = await mainApi.saveMovie(movie);
+        setSavedMovies((s) => new Map(s.set(newMovie.movieId, newMovie)));
       }
-      return movies;
+    } catch (err) {
+      console.log(err);
     }
-  );
-  const [lastIndex, setLastIndex] = useState(12);
-
-  function getMoreMovies() {
-    const amoutOfNewMovies = 3;
-    setShowedMovies(
-      showedMovies.concat(movies.slice(lastIndex, lastIndex + amoutOfNewMovies))
-    );
-    setLastIndex(lastIndex + amoutOfNewMovies);
-  }
-
+  };
   return (
     <section className='movies-list'>
       <div className='movies-list__container'>
         <ul className='movies-list__list'>
-          {showedMovies.map((movie, _i) => {
+          {movies.map((movie, _i) => {
             if (type === 'saved' && !typeOfSavedMovie(movie)) {
-              return;
+              return <></>;
             }
             return (
               <li className='movies-list__item' key={movie.movieId}>
-                <MoviesCard {...movie} type={type} />
+                <MoviesCard
+                  {...movie}
+                  type={type}
+                  toggleSaveMovie={toggleSaveMovie}
+                />
               </li>
             );
           })}
         </ul>
-        {type === 'all' && movies.length !== showedMovies.length && (
-          <button
-            type='button'
-            className='movies-list__load'
-            onClick={getMoreMovies}
-          >
-            Еще
-          </button>
-        )}
+        {type === 'all' && getMoreMoviesButton}
       </div>
     </section>
   );

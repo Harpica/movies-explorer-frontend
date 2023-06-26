@@ -1,4 +1,5 @@
 import HeartIcon from '../../svgs/HeartIcon';
+import { Movie, SavedMovie } from '../../utils/types';
 import './MoviesCard.css';
 
 interface MoviesCardProps {
@@ -16,40 +17,37 @@ interface MoviesCardProps {
   _id?: string;
   owner?: string;
   type: 'saved' | 'all';
+  toggleSaveMovie: (movie: Movie | SavedMovie) => void;
 }
 
 const MoviesCard: React.FC<MoviesCardProps> = ({
-  country,
-  director,
-  duration,
-  year,
-  description,
-  image,
-  trailerLink,
-  thumbnail,
-  movieId,
-  nameRU,
-  nameEN,
-  _id,
-  owner,
   type,
+  toggleSaveMovie,
+  ...props
 }) => {
   return (
-    <div
+    <a
       className={`movies-card ${type === 'saved' && 'movies-card_saved'}`}
       tabIndex={0}
+      href={props.trailerLink}
+      target='_blank'
+      rel='noreferrer'
     >
       <img
-        src={`https://api.nomoreparties.co/${image}`}
-        alt={nameRU}
+        src={props.image}
+        alt={props.nameRU}
         className='movies-card__image'
       />
       <div className='movies-card__container'>
         <div className='movies-card__title-container'>
-          <h3 className='movies-card__title'>{nameRU}</h3>
+          <h3 className='movies-card__title'>{props.nameRU}</h3>
           {type === 'all' && (
-            <button type='button' className='movies-card__like'>
-              <HeartIcon isActive={owner !== undefined} />
+            <button
+              type='button'
+              className='movies-card__like'
+              onClick={() => toggleSaveMovie(props)}
+            >
+              <HeartIcon isActive={props.owner !== undefined} />
             </button>
           )}
           {type === 'saved' && (
@@ -57,12 +55,13 @@ const MoviesCard: React.FC<MoviesCardProps> = ({
               type='button'
               className='movies-card__delete'
               tabIndex={0}
+              onClick={() => toggleSaveMovie(props)}
             />
           )}
         </div>
-        <p className='movies-card__duration'>{duration}</p>
+        <p className='movies-card__duration'>{props.duration}</p>
       </div>
-    </div>
+    </a>
   );
 };
 

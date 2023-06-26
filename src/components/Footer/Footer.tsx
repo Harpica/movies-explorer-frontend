@@ -14,6 +14,7 @@ const Footer = () => {
               <a
                 href='https://practicum.yandex.ru/'
                 target='_blank'
+                rel='noreferrer'
                 className='footer__link'
               >
                 Яндекс.Практикум
@@ -23,6 +24,7 @@ const Footer = () => {
               <a
                 href='https://github.com/Harpica/movies-explorer-frontend'
                 target='_blank'
+                rel='noreferrer'
                 className='footer__link'
               >
                 Github
