@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { SearchQuery, SwitchValue } from '../../@types/types';
 import Switch from '../Switch/Switch';
 import './SearchForm.css';
@@ -18,7 +18,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 }) => {
   const [values, setValues] = useState<{
     [key: string]: string;
-  }>(defaultValues || {});
+  }>({});
 
   const ref = useRef<HTMLFormElement>(null);
 
@@ -44,6 +44,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
       isShort: e.target.value === 'true',
     });
   };
+
+  useEffect(() => {
+    if (defaultValues !== undefined) {
+      setValues(defaultValues);
+    }
+  }, [defaultValues]);
 
   return (
     <section className='search'>
