@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { User, UserCredentials, typeOfApiError } from '../../@types/types';
+import { User, UserCredentials } from '../../@types/types';
 import mainApi from '../../HTTP/MainApi';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 import { ROUTES } from '../../utils/constants';
@@ -35,8 +35,10 @@ const Auth: React.FC<AuthProps> = ({
   setIsAuth,
   setCurrentUser,
 }) => {
-  const { values, handleChange, errors, isValid, ref } =
-    useFormWithValidation();
+  const {
+    values, handleChange, errors, isValid, ref,
+  } = useFormWithValidation();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [apiErrorMessage, setApiErrorMessage] = useState<string>('');
 
   const navigate = useNavigate();
@@ -44,6 +46,7 @@ const Auth: React.FC<AuthProps> = ({
   const authUser = useCallback(
     async (userData: UserCredentials | Omit<UserCredentials, 'name'>) => {
       try {
+        setIsLoading(true);
         let user;
         if (type === 'register') {
           user = await mainApi.registerUser(userData as UserCredentials);
@@ -54,14 +57,16 @@ const Auth: React.FC<AuthProps> = ({
         setCurrentUser(user);
         navigate(ROUTES.movies);
       } catch (err) {
-        if (typeOfApiError(err)) {
+        if (err instanceof Error) {
           setApiErrorMessage(err.message);
           return;
         }
         setApiErrorMessage('Что-то пошло не так :С');
+      } finally {
+        setIsLoading(false);
       }
     },
-    [setIsAuth, setCurrentUser, navigate, type]
+    [setIsAuth, setCurrentUser, navigate, type],
   );
 
   return (
@@ -95,7 +100,7 @@ const Auth: React.FC<AuthProps> = ({
           <p className='form__api-error'>{apiErrorMessage}</p>
           <div className='form__button-container'>
             <button type='submit' className='form__submit' disabled={!isValid}>
-              {submit}
+              {isLoading ? 'Загрузка...' : submit}
             </button>
             <div className='form__link-container'>
               <p className='form__link-description'>{description}</p>

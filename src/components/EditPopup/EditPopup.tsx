@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { User, typeOfApiError } from '../../@types/types';
+import { User } from '../../@types/types';
 import mainApi from '../../HTTP/MainApi';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 import FormField from '../FormField/FormField';
@@ -38,24 +38,29 @@ const EditPopup: React.FC<EditPopupProps> = ({
   setCurrentUser,
   ...props
 }) => {
-  const { values, handleChange, errors, isValid, resetForm, ref } =
-    useFormWithValidation({
-      name: user.name,
-      email: user.email,
-    });
+  const {
+    values, handleChange, errors, isValid, resetForm, ref,
+  } = useFormWithValidation({
+    name: user.name,
+    email: user.email,
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [apiErrorMessage, setApiErrorMessage] = useState<string>('');
 
   const updateUserData = async (userData: Omit<User, '_id'>) => {
     try {
+      setIsLoading(true);
       const newUser = await mainApi.updateUserData(userData);
       setCurrentUser(newUser);
       props.closePopup();
     } catch (err) {
-      if (typeOfApiError(err)) {
+      if (err instanceof Error) {
         setApiErrorMessage(err.message);
         return;
       }
       setApiErrorMessage('Что-то пошло не так :С');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -81,15 +86,16 @@ const EditPopup: React.FC<EditPopupProps> = ({
             type='submit'
             className='popup-form__submit'
             disabled={
-              !isValid ||
-              (user.name === values.name && user.email === values.email)
+              !isValid
+              || (user.name === values.name && user.email === values.email)
+              || isLoading
             }
             onClick={(e) => {
               e.preventDefault();
               updateUserData(values as Omit<User, '_id'>);
             }}
           >
-            Сохранить
+            {isLoading ? 'Сохранение...' : 'Сохранить'}
           </button>
           <button
             type='button'

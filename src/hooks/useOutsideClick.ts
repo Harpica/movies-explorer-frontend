@@ -4,7 +4,7 @@ const MOUSE_UP = 'mouseup';
 
 export default function useOutsideClick(
   handleClose: Function,
-  isOpen: boolean
+  isOpen: boolean,
 ) {
   const ref = React.useRef<HTMLDivElement>(null!);
   React.useEffect(() => {

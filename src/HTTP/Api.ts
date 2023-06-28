@@ -2,10 +2,11 @@ async function checkResponse(res: Response) {
   if (res.ok) {
     return res.json();
   }
-  return Promise.reject({
-    status: res.status,
-    message: await res.json().then((data: { message: string }) => data.message),
-  });
+  return Promise.reject(
+    new Error(
+      await res.json().then((data: { message: string }) => data.message),
+    ),
+  );
 }
 
 export default class ServerInterface {
@@ -18,7 +19,7 @@ export default class ServerInterface {
   constructor(
     url: string,
     headers: { [key: string]: string },
-    credentials?: 'include'
+    credentials?: 'include',
   ) {
     this.url = url;
     this.headers = headers;

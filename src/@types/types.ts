@@ -43,7 +43,7 @@ export interface SavedMovie extends Omit<Movie, 'id'> {
 }
 
 export function typeOfSavedMovie(
-  movie: Movie | SavedMovie
+  movie: Movie | SavedMovie,
 ): movie is SavedMovie {
   if ('owner' in movie) {
     return true;
@@ -57,12 +57,3 @@ export interface SearchQuery {
 }
 
 export type SwitchValue = 'true' | 'false';
-
-export function typeOfApiError(
-  err: any
-): err is { status: number; message: string } {
-  if ('status' in err && 'message' in err) {
-    return true;
-  }
-  return false;
-}

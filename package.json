@@ -24,7 +24,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "npx eslint .",
     "prettier": "npx prettier --write \"**/*.{js,ts,jsx,tsx,json}\""
   },
   "eslintConfig": {
@@ -46,12 +45,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
-    "@types/react-router-hash-link": "^2.4.6",
-    "eslint": "^8.35.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.0.0",
-    "eslint-plugin-airbnb": "^0.0.1-security",
-    "eslint-plugin-import": "^2.27.5"
+    "@types/react-router-hash-link": "^2.4.6"
   }
 }

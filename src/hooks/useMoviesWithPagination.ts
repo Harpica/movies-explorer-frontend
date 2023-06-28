@@ -14,7 +14,7 @@ const useMoviesWithPagination = (movies: Array<Movie | SavedMovie>) => {
   } = useMovies(movies);
 
   const [showedMovies, setShowedMovies] = useState<Array<SavedMovie | Movie>>(
-    []
+    [],
   );
   const [cardsGridConfig, setCardsGridConfig] = useState<{
     init: number;
@@ -36,15 +36,14 @@ const useMoviesWithPagination = (movies: Array<Movie | SavedMovie>) => {
   function getMoreMovies() {
     const reminder = showedMovies.length % cardsGridConfig.add;
 
-    const amoutOfNewMovies =
-      reminder === 0
-        ? cardsGridConfig.add
-        : cardsGridConfig.add + cardsGridConfig.add - reminder;
+    const amoutOfNewMovies = reminder === 0
+      ? cardsGridConfig.add
+      : cardsGridConfig.add + cardsGridConfig.add - reminder;
 
     setShowedMovies(
       showedMovies.concat(
-        filteredMovies.slice(lastIndex, lastIndex + amoutOfNewMovies)
-      )
+        filteredMovies.slice(lastIndex, lastIndex + amoutOfNewMovies),
+      ),
     );
     setLastIndex(lastIndex + amoutOfNewMovies);
   }

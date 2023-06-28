@@ -14,8 +14,8 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ isOpen, closeMenu }) => (
   >
     <nav
       className={
-        'sidebar-nav' +
-        `${isOpen ? ' sidebar-nav_opened' : ' sidebar-nav_closed'}`
+        'sidebar-nav'
+        + `${isOpen ? ' sidebar-nav_opened' : ' sidebar-nav_closed'}`
       }
     >
       <button
@@ -28,11 +28,9 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ isOpen, closeMenu }) => (
         <li className='sidebar-nav__item'>
           <NavLink
             to={ROUTES.main}
-            className={({ isActive }) =>
-              isActive
-                ? 'sidebar-nav__link sidebar-nav__link_active'
-                : 'sidebar-nav__link'
-            }
+            className={({ isActive }) => (isActive
+              ? 'sidebar-nav__link sidebar-nav__link_active'
+              : 'sidebar-nav__link')}
           >
             Главная
           </NavLink>
@@ -40,11 +38,9 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ isOpen, closeMenu }) => (
         <li className='sidebar-nav__item'>
           <NavLink
             to={ROUTES.movies}
-            className={({ isActive }) =>
-              isActive
-                ? 'sidebar-nav__link sidebar-nav__link_active'
-                : 'sidebar-nav__link'
-            }
+            className={({ isActive }) => (isActive
+              ? 'sidebar-nav__link sidebar-nav__link_active'
+              : 'sidebar-nav__link')}
           >
             Фильмы
           </NavLink>
@@ -52,11 +48,9 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ isOpen, closeMenu }) => (
         <li className='sidebar-nav__item'>
           <NavLink
             to={ROUTES.savedMovies}
-            className={({ isActive }) =>
-              isActive
-                ? 'sidebar-nav__link sidebar-nav__link_active'
-                : 'sidebar-nav__link'
-            }
+            className={({ isActive }) => (isActive
+              ? 'sidebar-nav__link sidebar-nav__link_active'
+              : 'sidebar-nav__link')}
           >
             Сохраненные фильмы
           </NavLink>

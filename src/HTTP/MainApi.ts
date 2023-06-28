@@ -1,4 +1,6 @@
-import { Movie, SavedMovie, User, UserCredentials } from '../@types/types';
+import {
+  Movie, SavedMovie, User, UserCredentials,
+} from '../@types/types';
 import { SERVER_URL } from '../utils/constants';
 import ServerInterface from './Api';
 
@@ -92,7 +94,7 @@ class MainApi extends ServerInterface {
       {
         method: 'DELETE',
         headers: this.headers,
-      }
+      },
     ).then((data) => data.deletedMovieId);
   }
 }

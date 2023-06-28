@@ -18,7 +18,7 @@ const MoviesCardList: React.FC<MoviesCardListProps> = ({
 }) => {
   const toggleSaveMovie = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    movie: Movie | SavedMovie
+    movie: Movie | SavedMovie,
   ) => {
     e.preventDefault();
     try {

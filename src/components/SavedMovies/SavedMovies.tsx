@@ -16,8 +16,7 @@ const SavedMovies: React.FC<SavedMoviesProps> = ({
   savedMoviesArray,
   setSavedMovies,
 }) => {
-  const { notificationMessage, filteredMovies, filterMovies } =
-    useMovies(savedMoviesArray);
+  const { notificationMessage, filteredMovies, filterMovies } = useMovies(savedMoviesArray);
 
   return (
     <div className='saved-movies'>

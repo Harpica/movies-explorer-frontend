@@ -1,9 +1,9 @@
-import { PropsWithChildren } from 'react';
 import { Navigate } from 'react-router';
 
-interface ProtectedRouteElementProps extends PropsWithChildren {
+interface ProtectedRouteElementProps {
   statement: boolean;
   redirect: string;
+  children: React.ReactElement;
 }
 
 const ProtectedRouteElement: React.FC<ProtectedRouteElementProps> = ({

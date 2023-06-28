@@ -16,6 +16,10 @@ interface MoviesProps {
 
 const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
   const [movies, setMovies] = useState<Array<Movie | SavedMovie>>([]);
+  const [defaultValues, setDefaultValues] = useState<{
+    [key: string]: string;
+  }>({});
+
   const {
     searchMoviesApi,
     isLoading,
@@ -43,9 +47,12 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
 
   useEffect(() => {
     const storedMoviesString = window.localStorage.getItem('movies');
-    if (storedMoviesString !== null) {
+    const queryString = window.localStorage.getItem('query');
+    if (storedMoviesString !== null && queryString !== null) {
       const storedMovies: Array<Movie> = JSON.parse(storedMoviesString);
+      const query: { [key: string]: string } = JSON.parse(queryString);
       setMovies(getMoviesWithLikes(storedMovies));
+      setDefaultValues(query);
     }
   }, [getMoviesWithLikes]);
 
@@ -66,7 +73,7 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
         <SearchForm
           onSubmit={onSubmitSearchQuery}
           onSwitcherChange={filterMovies}
-          defaultValues={JSON.parse(window.localStorage.getItem('query') || '')}
+          defaultValues={defaultValues}
         />
         <Notification message={notificationMessage} />
         {isLoading ? (
@@ -81,8 +88,9 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
                 type='button'
                 className={`movies-list__load ${
                   filteredMovies.length !== 0 &&
-                  filteredMovies.length !== showedMovies.length &&
-                  'movies-list__load_hide'
+                  filteredMovies.length !== showedMovies.length
+                    ? ''
+                    : 'movies-list__load_hide'
                 }`}
                 onClick={getMoreMovies}
               >

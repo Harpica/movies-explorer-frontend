@@ -3,10 +3,10 @@ import { Movie, SavedMovie, SearchQuery } from '../@types/types';
 import useSearchMovies from './useSearchMovies';
 
 const useMovies = (movies: Array<Movie | SavedMovie>) => {
-  const { searchMoviesApi, searchMoviesLocal, isLoading, notificationMessage } =
-    useSearchMovies();
-  const [filteredMovies, setFilteredMovies] =
-    useState<Array<Movie | SavedMovie>>(movies);
+  const {
+    searchMoviesApi, searchMoviesLocal, isLoading, notificationMessage,
+  } = useSearchMovies();
+  const [filteredMovies, setFilteredMovies] = useState<Array<Movie | SavedMovie>>(movies);
 
   useEffect(() => {
     setFilteredMovies(movies);

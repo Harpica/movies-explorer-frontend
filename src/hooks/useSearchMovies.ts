@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Movie, MovieFromApi, SavedMovie, SearchQuery } from '../@types/types';
+import {
+  Movie, MovieFromApi, SavedMovie, SearchQuery,
+} from '../@types/types';
 import movieApi from '../HTTP/MoviesApi';
 
 const useSearchMovies = () => {
@@ -8,14 +10,14 @@ const useSearchMovies = () => {
 
   function filterMoviesAndAddImageLink(
     movies: Array<MovieFromApi>,
-    searchQuery: SearchQuery
+    searchQuery: SearchQuery,
   ) {
     const searchValuelowerCase = searchQuery.searchValue.toLowerCase();
     return movies.reduce((prev: Array<Movie>, curr) => {
       if (
-        curr.nameRU.toLowerCase().includes(searchValuelowerCase) === true &&
-        ((searchQuery.isShort === true && curr.duration < 40) ||
-          searchQuery.isShort !== true)
+        curr.nameRU.toLowerCase().includes(searchValuelowerCase) === true
+        && ((searchQuery.isShort === true && curr.duration < 40)
+          || searchQuery.isShort !== true)
       ) {
         prev.push({
           ...curr,
@@ -45,15 +47,14 @@ const useSearchMovies = () => {
 
   function filterMovies(
     movies: Array<Movie | SavedMovie>,
-    searchQuery: SearchQuery
+    searchQuery: SearchQuery,
   ) {
     return movies.filter(
-      (movie) =>
-        movie.nameRU
-          .toLowerCase()
-          .includes(searchQuery.searchValue.toLowerCase()) === true &&
-        ((searchQuery.isShort === true && movie.duration < 40) ||
-          searchQuery.isShort !== true)
+      (movie) => movie.nameRU
+        .toLowerCase()
+        .includes(searchQuery.searchValue.toLowerCase()) === true
+        && ((searchQuery.isShort === true && movie.duration <= 40)
+          || searchQuery.isShort !== true),
     );
   }
 
@@ -72,7 +73,7 @@ const useSearchMovies = () => {
       return movies;
     } catch (err) {
       setNotificationMessage(
-        'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
+        'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз',
       );
       return null;
     } finally {
@@ -82,7 +83,7 @@ const useSearchMovies = () => {
 
   function searchMoviesLocal(
     movies: Array<Movie | SavedMovie>,
-    searchQuery: SearchQuery
+    searchQuery: SearchQuery,
   ) {
     const filteredMovies = filterMovies(movies, searchQuery);
     if (filteredMovies.length === 0) {

@@ -22,11 +22,9 @@ const Navigation: React.FC<NavigationProps> = ({ type, openMenu }) => (
           <li>
             <NavLink
               to={ROUTES.movies}
-              className={({ isActive }) =>
-                isActive
-                  ? 'navigation__link navigation__link_active'
-                  : 'navigation__link'
-              }
+              className={({ isActive }) => (isActive
+                ? 'navigation__link navigation__link_active'
+                : 'navigation__link')}
             >
               Фильмы
             </NavLink>
@@ -34,11 +32,9 @@ const Navigation: React.FC<NavigationProps> = ({ type, openMenu }) => (
           <li>
             <NavLink
               to={ROUTES.savedMovies}
-              className={({ isActive }) =>
-                isActive
-                  ? 'navigation__link navigation__link_active'
-                  : 'navigation__link'
-              }
+              className={({ isActive }) => (isActive
+                ? 'navigation__link navigation__link_active'
+                : 'navigation__link')}
             >
               Сохраненные фильмы
             </NavLink>

@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 
 const useFormWithValidation = (defaultValues?: { [key: string]: string }) => {
   const [values, setValues] = useState<{
@@ -29,7 +31,7 @@ const useFormWithValidation = (defaultValues?: { [key: string]: string }) => {
       setErrors(newErrors);
       setIsValid(newIsValid);
     },
-    [setValues, setErrors, setIsValid]
+    [setValues, setErrors, setIsValid],
   );
 
   return {
