@@ -10,8 +10,6 @@ const ProtectedRouteElement: React.FC<ProtectedRouteElementProps> = ({
   statement,
   children,
   redirect,
-}) => {
-  return statement ? <>{children}</> : <Navigate to={redirect} />;
-};
+}) => (statement ? children : <Navigate to={redirect} />);
 
 export default ProtectedRouteElement;

@@ -1,4 +1,5 @@
 .auth {
+  width: 100%;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -34,6 +35,13 @@
   padding: 0;
 }
 
+.form__api-error {
+  margin: 0;
+  font-size: 14px;
+  text-align: center;
+  color: var(--color-red);
+}
+
 .form__button-container {
   display: flex;
   flex-direction: column;
@@ -49,12 +57,23 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  transition: opacity 0.4s;
+  transition: 0.4s;
   cursor: pointer;
 }
 
 .form__submit:hover {
   opacity: 0.5;
+}
+
+.form__submit:disabled {
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  cursor: default;
+}
+
+.form__submit:disabled:hover {
+  opacity: 1;
 }
 
 .form__link-container {

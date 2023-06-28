@@ -4,6 +4,12 @@ export interface User {
   email: string;
 }
 
+export interface UserCredentials {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export interface MovieFromApi {
   id: number;
   country: string;
@@ -36,7 +42,9 @@ export interface SavedMovie extends Omit<Movie, 'id'> {
   movieId: number;
 }
 
-export function typeOfSavedMovie(movie: Movie | SavedMovie) {
+export function typeOfSavedMovie(
+  movie: Movie | SavedMovie
+): movie is SavedMovie {
   if ('owner' in movie) {
     return true;
   }
@@ -49,3 +57,12 @@ export interface SearchQuery {
 }
 
 export type SwitchValue = 'true' | 'false';
+
+export function typeOfApiError(
+  err: any
+): err is { status: number; message: string } {
+  if ('status' in err && 'message' in err) {
+    return true;
+  }
+  return false;
+}

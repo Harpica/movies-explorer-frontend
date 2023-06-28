@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Movie, SavedMovie, SearchQuery } from '../utils/types';
+import { Movie, SavedMovie, SearchQuery } from '../@types/types';
 import useSearchMovies from './useSearchMovies';
 
 const useMovies = (movies: Array<Movie | SavedMovie>) => {

@@ -1,5 +1,5 @@
-import './NotFound.css';
 import { useNavigate } from 'react-router-dom';
+import './NotFound.css';
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -9,7 +9,12 @@ const NotFound = () => {
         <h1 className='not-found__title'>404</h1>
         <p className='not-found__message'>Страница не найдена</p>
       </div>
-      <button onClick={() => navigate(-1)} className='not-found__back'>
+      <button
+        type='button'
+        aria-label='Назад'
+        onClick={() => navigate(-1)}
+        className='not-found__back'
+      >
         Назад
       </button>
     </section>

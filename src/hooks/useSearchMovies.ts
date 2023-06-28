@@ -1,19 +1,10 @@
 import { useState } from 'react';
+import { Movie, MovieFromApi, SavedMovie, SearchQuery } from '../@types/types';
 import movieApi from '../HTTP/MoviesApi';
-import { Movie, MovieFromApi, SavedMovie, SearchQuery } from '../utils/types';
 
 const useSearchMovies = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [notificationMessage, setNotificationMessage] = useState<string>('');
-
-  async function getMovies(searchQuery: SearchQuery) {
-    const movies = await movieApi.getMovies();
-    const filteredMovies = filterMoviesAndAddImageLink(movies, searchQuery);
-    if (filteredMovies !== undefined) {
-      saveQueryResults(filteredMovies, searchQuery);
-    }
-    return filteredMovies;
-  }
 
   function filterMoviesAndAddImageLink(
     movies: Array<MovieFromApi>,
@@ -43,22 +34,34 @@ const useSearchMovies = () => {
     window.localStorage.setItem('movies', JSON.stringify(movies));
   }
 
+  async function getMovies(searchQuery: SearchQuery) {
+    const movies = await movieApi.getMovies();
+    const filteredMovies = filterMoviesAndAddImageLink(movies, searchQuery);
+    if (filteredMovies !== undefined) {
+      saveQueryResults(filteredMovies, searchQuery);
+    }
+    return filteredMovies;
+  }
+
   function filterMovies(
     movies: Array<Movie | SavedMovie>,
     searchQuery: SearchQuery
   ) {
-    return movies.filter((movie) => {
-      return (
+    return movies.filter(
+      (movie) =>
         movie.nameRU
           .toLowerCase()
           .includes(searchQuery.searchValue.toLowerCase()) === true &&
         ((searchQuery.isShort === true && movie.duration < 40) ||
           searchQuery.isShort !== true)
-      );
-    });
+    );
   }
 
   async function searchMoviesApi(searchQuery: SearchQuery) {
+    if (searchQuery.searchValue.length === 0) {
+      setNotificationMessage('Нужно ввести ключевое слово');
+      return null;
+    }
     setIsLoading(true);
     try {
       setNotificationMessage('');
@@ -68,7 +71,9 @@ const useSearchMovies = () => {
       }
       return movies;
     } catch (err) {
-      setNotificationMessage('Что-то пошло не так :С');
+      setNotificationMessage(
+        'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
+      );
       return null;
     } finally {
       setIsLoading(false);

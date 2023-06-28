@@ -1,13 +1,11 @@
-import './SavedMovies.css';
+import { SavedMovie } from '../../@types/types';
+import useMovies from '../../hooks/useMovies';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
-import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import { Movie, SavedMovie, SearchQuery } from '../../utils/types';
-import useSearchMovies from '../../hooks/useSearchMovies';
-import { useEffect, useState } from 'react';
 import Notification from '../Notification/Notification';
-import useMovies from '../../hooks/useMovies';
+import SearchForm from '../SearchForm/SearchForm';
+import './SavedMovies.css';
 
 interface SavedMoviesProps {
   savedMoviesArray: Array<SavedMovie>;

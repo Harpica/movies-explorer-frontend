@@ -1,8 +1,8 @@
-import './Header.css';
+import { useState } from 'react';
 import Logo from '../Logo/Logo';
 import Navigation from '../Navigation/Navigation';
 import SidebarNav from '../SidebarNav/SidebarNav';
-import { useState } from 'react';
+import './Header.css';
 
 interface HeaderProps {
   type: 'authorized' | 'unauthorized';

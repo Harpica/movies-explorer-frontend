@@ -1,6 +1,6 @@
 import { useReducer, useState } from 'react';
+import { SwitchValue } from '../../@types/types';
 import './Swtch.css';
-import { SwitchValue } from '../../utils/types';
 
 interface SwitchProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

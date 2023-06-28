@@ -4,8 +4,7 @@ interface NotificationProps {
   message: string;
 }
 
-const Notification: React.FC<NotificationProps> = ({ message }) => {
-  return <>{message !== '' && <p className='notification'>{message}</p>}</>;
-};
+const Notification: React.FC<NotificationProps> = ({ message }) =>
+  message !== '' && <p className='notification'>{message}</p>;
 
 export default Notification;

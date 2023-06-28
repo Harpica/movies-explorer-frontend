@@ -2,20 +2,38 @@ import './FormField.css';
 
 interface FormFieldProps {
   id: string;
+  name: string;
   label: string;
   props: React.InputHTMLAttributes<HTMLInputElement>;
+  value: string;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ id, label, props }) => {
-  return (
-    <div className='form-field'>
-      <label htmlFor={id} className='form-field__label'>
-        {label}
-      </label>
-      <input type='text' id={id} className='form-field__input' {...props} />
-      <p className='form-field__error'></p>
-    </div>
-  );
-};
+const FormField: React.FC<FormFieldProps> = ({
+  id,
+  name,
+  label,
+  props,
+  value,
+  handleChange,
+  error,
+}) => (
+  <div className='form-field'>
+    <label htmlFor={id} className='form-field__label'>
+      {label}
+    </label>
+    <input
+      id={id}
+      type='text'
+      name={name}
+      className='form-field__input'
+      value={value || ''}
+      onChange={handleChange}
+      {...props}
+    />
+    <p className='form-field__error'>{error}</p>
+  </div>
+);
 
 export default FormField;

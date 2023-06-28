@@ -40,6 +40,10 @@
   transition: border 0.4s;
 }
 
+.movies-list__load_hide {
+  display: none;
+}
+
 .movies-list__load:hover {
   border: 2px solid var(--color-green);
 }

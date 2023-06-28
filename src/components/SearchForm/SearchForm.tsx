@@ -1,5 +1,5 @@
-import useFormWithValidation from '../../hooks/useFormWithValidation';
-import { SearchQuery, SwitchValue } from '../../utils/types';
+import { useRef, useState } from 'react';
+import { SearchQuery, SwitchValue } from '../../@types/types';
 import Switch from '../Switch/Switch';
 import './SearchForm.css';
 
@@ -16,8 +16,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
   onSwitcherChange,
   defaultValues,
 }) => {
-  const { values, handleChange, errors, isValid, resetForm } =
-    useFormWithValidation(defaultValues);
+  const [values, setValues] = useState<{
+    [key: string]: string;
+  }>(defaultValues || {});
+
+  const ref = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,6 +29,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
       isShort: values.isShort === 'true',
     });
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = e;
+    const { name } = target;
+    const { value } = target;
+    setValues({ ...values, [name]: value });
+  };
+
   const handleSwitcherChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e);
     onSwitcherChange({
@@ -37,6 +48,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   return (
     <section className='search'>
       <form
+        ref={ref}
         className='search__form'
         onSubmit={(e) => {
           handleSubmit(e);
@@ -53,7 +65,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
             value={(values.searchValue as string) || ''}
             onChange={handleChange}
           />
-          <button type='submit' className='search__submit' />
+          <button
+            type='submit'
+            className='search__submit'
+            aria-label='Найти фильмы'
+          />
         </div>
         <Switch
           onChange={handleSwitcherChange}

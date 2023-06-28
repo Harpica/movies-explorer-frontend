@@ -1,3 +1,4 @@
+import { User } from '../@types/types';
 import image1 from '../images/example-1.png';
 import image2 from '../images/example-2.png';
 import image3 from '../images/example-3.png';
@@ -10,7 +11,6 @@ import image9 from '../images/example-9.png';
 import image10 from '../images/example-10.png';
 import image11 from '../images/example-11.png';
 import image12 from '../images/example-12.png';
-import { User } from './types';
 
 export const SERVER_URL =
   process.env.REACT_APP_SERVER_URL || 'http://localhost:5000';

@@ -1,6 +1,18 @@
+async function checkResponse(res: Response) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject({
+    status: res.status,
+    message: await res.json().then((data: { message: string }) => data.message),
+  });
+}
+
 export default class ServerInterface {
   protected url: string;
+
   protected headers: { [key: string]: string };
+
   private credentials: 'include' | undefined;
 
   constructor(
@@ -15,17 +27,6 @@ export default class ServerInterface {
 
   protected async request<T>(url: string, options?: RequestInit): Promise<T> {
     const res = await fetch(url, { ...options, credentials: this.credentials });
-    return this.checkResponse(res);
-  }
-  protected async checkResponse(res: Response) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject({
-      status: res.status,
-      message: await res
-        .json()
-        .then((data: { message: string }) => data.message),
-    });
+    return checkResponse(res);
   }
 }

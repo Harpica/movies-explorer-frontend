@@ -1,3 +1,4 @@
+import { User } from '../../@types/types';
 import { ROUTES } from '../../utils/constants';
 import Auth from '../Auth/Auth';
 
@@ -9,17 +10,17 @@ const RegisterParams = {
   linkTitle: 'Войти',
   form: [
     {
-      id: 'name',
+      name: 'name',
       label: 'Имя',
       props: {
         required: true,
-        minLendth: 2,
+        minLength: 2,
         maxLength: 30,
         placeholder: 'Ваше имя',
       },
     },
     {
-      id: 'email',
+      name: 'email',
       label: 'E-mail',
       props: {
         required: true,
@@ -28,7 +29,7 @@ const RegisterParams = {
       },
     },
     {
-      id: 'password',
+      name: 'password',
       label: 'Пароль',
       props: {
         required: true,
@@ -39,8 +40,18 @@ const RegisterParams = {
   ],
 };
 
-const Register = () => {
-  return <Auth {...RegisterParams} />;
-};
+interface RegisterProps {
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
+}
+
+const Register: React.FC<RegisterProps> = ({ setIsAuth, setCurrentUser }) => (
+  <Auth
+    type='register'
+    {...RegisterParams}
+    setIsAuth={setIsAuth}
+    setCurrentUser={setCurrentUser}
+  />
+);
 
 export default Register;

@@ -1,3 +1,4 @@
+import { User } from '../../@types/types';
 import { ROUTES } from '../../utils/constants';
 import Auth from '../Auth/Auth';
 
@@ -9,7 +10,7 @@ const LoginParams = {
   linkTitle: 'Регистрация',
   form: [
     {
-      id: 'email',
+      name: 'email',
       label: 'E-mail',
       props: {
         required: true,
@@ -18,7 +19,7 @@ const LoginParams = {
       },
     },
     {
-      id: 'password',
+      name: 'password',
       label: 'Пароль',
       props: {
         required: true,
@@ -29,8 +30,18 @@ const LoginParams = {
   ],
 };
 
-const Login = () => {
-  return <Auth {...LoginParams} />;
-};
+interface LoginProps {
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
+}
+
+const Login: React.FC<LoginProps> = ({ setIsAuth, setCurrentUser }) => (
+  <Auth
+    type='login'
+    {...LoginParams}
+    setIsAuth={setIsAuth}
+    setCurrentUser={setCurrentUser}
+  />
+);
 
 export default Login;

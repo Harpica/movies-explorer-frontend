@@ -43,6 +43,8 @@
 }
 
 .movies-card__like {
+  position: relative;
+  z-index: 2;
   height: 12px;
   padding: 0;
   border: none;

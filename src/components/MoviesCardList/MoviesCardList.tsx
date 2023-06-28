@@ -1,7 +1,7 @@
-import './MoviesCardList.css';
-import MoviesCard from '../MoviesCard/MoviesCard';
-import { Movie, SavedMovie, typeOfSavedMovie } from '../../utils/types';
+import { Movie, SavedMovie, typeOfSavedMovie } from '../../@types/types';
 import mainApi from '../../HTTP/MainApi';
+import MoviesCard from '../MoviesCard/MoviesCard';
+import './MoviesCardList.css';
 
 interface MoviesCardListProps {
   type: 'saved' | 'all';
@@ -16,9 +16,13 @@ const MoviesCardList: React.FC<MoviesCardListProps> = ({
   setSavedMovies,
   getMoreMoviesButton,
 }) => {
-  const toggleSaveMovie = async (movie: Movie | SavedMovie) => {
+  const toggleSaveMovie = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    movie: Movie | SavedMovie
+  ) => {
+    e.preventDefault();
     try {
-      if (typeOfSavedMovie(movie) === true) {
+      if (typeOfSavedMovie(movie)) {
         await mainApi.deleteMovie((movie as SavedMovie)._id);
         setSavedMovies((s) => {
           s.delete(movie.movieId);
@@ -36,9 +40,9 @@ const MoviesCardList: React.FC<MoviesCardListProps> = ({
     <section className='movies-list'>
       <div className='movies-list__container'>
         <ul className='movies-list__list'>
-          {movies.map((movie, _i) => {
+          {movies.map((movie) => {
             if (type === 'saved' && !typeOfSavedMovie(movie)) {
-              return <></>;
+              return '';
             }
             return (
               <li className='movies-list__item' key={movie.movieId}>
