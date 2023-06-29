@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { User } from '../../@types/types';
 import mainApi from '../../HTTP/MainApi';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
@@ -36,36 +36,47 @@ interface EditPopupProps extends PopupProps {
 const EditPopup: React.FC<EditPopupProps> = ({
   user,
   setCurrentUser,
-  ...props
+  closePopup,
+  isOpen,
 }) => {
-  const {
-    values, handleChange, errors, isValid, resetForm, ref,
-  } = useFormWithValidation({
-    name: user.name,
-    email: user.email,
-  });
+  const { values, handleChange, errors, isValid, resetForm, ref } =
+    useFormWithValidation({
+      name: user.name,
+      email: user.email,
+    });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [apiErrorMessage, setApiErrorMessage] = useState<string>('');
+  const [apiNotification, setApiNotification] = useState<{
+    type: 'success' | 'error';
+    message: string;
+  }>({ type: 'success', message: '' });
 
   const updateUserData = async (userData: Omit<User, '_id'>) => {
     try {
       setIsLoading(true);
       const newUser = await mainApi.updateUserData(userData);
       setCurrentUser(newUser);
-      props.closePopup();
+      setApiNotification({
+        type: 'success',
+        message: 'Данные успешно сохранены!',
+      });
     } catch (err) {
       if (err instanceof Error) {
-        setApiErrorMessage(err.message);
+        setApiNotification({ type: 'error', message: err.message });
         return;
       }
-      setApiErrorMessage('Что-то пошло не так :С');
+      setApiNotification({ type: 'error', message: 'Что-то пошло не так :С' });
     } finally {
       setIsLoading(false);
     }
   };
 
+  const onPopupClose = useCallback(() => {
+    closePopup();
+    setApiNotification({ type: 'success', message: '' });
+  }, [closePopup]);
+
   return (
-    <Popup {...props}>
+    <Popup closePopup={onPopupClose} isOpen={isOpen}>
       <form className='popup-form' ref={ref}>
         <fieldset className='popup-form__fieldset'>
           {editFormParams.map((field) => (
@@ -80,15 +91,25 @@ const EditPopup: React.FC<EditPopupProps> = ({
             />
           ))}
         </fieldset>
-        <p className='popup-form__api-error'>{apiErrorMessage}</p>
+        <p
+          className={`popup-form__notification
+            ${
+              apiNotification.type === 'error'
+                ? 'popup-form__notification_type_error'
+                : ''
+            }
+          `}
+        >
+          {apiNotification.message}
+        </p>
         <div className='popup-form__button-container'>
           <button
             type='submit'
             className='popup-form__submit'
             disabled={
-              !isValid
-              || (user.name === values.name && user.email === values.email)
-              || isLoading
+              !isValid ||
+              (user.name === values.name && user.email === values.email) ||
+              isLoading
             }
             onClick={(e) => {
               e.preventDefault();
@@ -105,10 +126,10 @@ const EditPopup: React.FC<EditPopupProps> = ({
                 name: user.name,
                 email: user.email,
               });
-              props.closePopup();
+              onPopupClose();
             }}
           >
-            Отменить
+            Закрыть
           </button>
         </div>
       </form>

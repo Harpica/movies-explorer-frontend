@@ -1,60 +1,51 @@
 import { useRef, useState, useEffect } from 'react';
 import { SearchQuery, SwitchValue } from '../../@types/types';
+import Notification from '../Notification/Notification';
 import Switch from '../Switch/Switch';
 import './SearchForm.css';
 
 interface SearchFormProps {
-  onSubmit: (searchQuery: SearchQuery) => Promise<void> | void;
-  onSwitcherChange: (searchQuery: SearchQuery) => void;
-  defaultValues?: {
-    [key: string]: string;
-  };
+  onSubmit: (searchValue: string) => Promise<void> | void;
+  onSwitcherChange: (isShort: boolean) => void;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  searchValue: string;
+  isShortInit: boolean;
+  type: 'saved' | 'all';
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({
   onSubmit,
   onSwitcherChange,
-  defaultValues,
+  setSearchValue,
+  searchValue,
+  isShortInit,
+  type,
 }) => {
-  const [values, setValues] = useState<{
-    [key: string]: string;
-  }>({});
-
-  const ref = useRef<HTMLFormElement>(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit({
-      searchValue: values.searchValue || '',
-      isShort: values.isShort === 'true',
-    });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { target } = e;
-    const { name } = target;
-    const { value } = target;
-    setValues({ ...values, [name]: value });
+    setErrorMessage('');
+    const inputElement = e.currentTarget.elements.namedItem(
+      'searchValue'
+    ) as HTMLInputElement;
+    const searchValue = inputElement.value;
+    if (searchValue === '' && type === 'all') {
+      setErrorMessage('Поисковый запрос должен содержать хотя бы 1 символ');
+      return;
+    }
+    setSearchValue(searchValue);
+    onSubmit(searchValue);
   };
 
   const handleSwitcherChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(e);
-    onSwitcherChange({
-      searchValue: values.searchValue || '',
-      isShort: e.target.value === 'true',
-    });
+    const booleanSwitcherValue = e.currentTarget.value === 'true';
+    onSwitcherChange(booleanSwitcherValue);
   };
-
-  useEffect(() => {
-    if (defaultValues !== undefined) {
-      setValues(defaultValues);
-    }
-  }, [defaultValues]);
 
   return (
     <section className='search'>
       <form
-        ref={ref}
         className='search__form'
         onSubmit={(e) => {
           handleSubmit(e);
@@ -63,13 +54,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
         <div className='search__input-container'>
           <input
             type='text'
-            pattern='[\wа-я\sё0-9\-\.,!?]+'
             id='search'
             name='searchValue'
             className='search__input'
             placeholder='Фильм'
-            value={(values.searchValue as string) || ''}
-            onChange={handleChange}
+            defaultValue={searchValue || ''}
           />
           <button
             type='submit'
@@ -77,10 +66,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
             aria-label='Найти фильмы'
           />
         </div>
+        <p className='search__error'>{errorMessage}</p>
         <Switch
           onChange={handleSwitcherChange}
           name='isShort'
-          initialState={(defaultValues?.isShort as SwitchValue) || 'false'}
+          initialState={isShortInit.toString() === 'true' ? 'true' : 'false'}
         />
         <div className='search__devider' />
       </form>

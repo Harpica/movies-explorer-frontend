@@ -120,4 +120,8 @@
     font-size: 10px;
     line-height: 12px;
   }
+  .movies-card_saved .movies-card__delete {
+    visibility: visible;
+    opacity: 1;
+  }
 }

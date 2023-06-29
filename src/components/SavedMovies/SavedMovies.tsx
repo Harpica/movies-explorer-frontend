@@ -1,5 +1,7 @@
+import { useState, useCallback, useEffect } from 'react';
 import { SavedMovie } from '../../@types/types';
-import useMovies from '../../hooks/useMovies';
+import useMoviesFilter from '../../hooks/useMoviesFilter';
+import useMoviesLocal from '../../hooks/useMoviesLocal';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -16,13 +18,44 @@ const SavedMovies: React.FC<SavedMoviesProps> = ({
   savedMoviesArray,
   setSavedMovies,
 }) => {
-  const { notificationMessage, filteredMovies, filterMovies } = useMovies(savedMoviesArray);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [notificationMessage, setNotificationMessage] = useState<string>('');
+
+  const { movies, searchMoviesLocal } = useMoviesLocal(
+    savedMoviesArray,
+    searchValue
+  );
+  const { filterMoviesByDuration, filteredMovies } = useMoviesFilter(
+    movies,
+    false
+  );
+
+  useEffect(() => {
+    setNotificationMessage('');
+    if (filteredMovies.length === 0) {
+      setNotificationMessage('Ничего не найдено');
+    }
+  }, [filteredMovies, searchValue]);
+
+  const onSubmitSearchQuery = useCallback(
+    (searchValue: string) => {
+      searchMoviesLocal(searchValue);
+    },
+    [searchMoviesLocal]
+  );
 
   return (
     <div className='saved-movies'>
       <Header type='authorized' />
       <div className='saved-movies__content'>
-        <SearchForm onSubmit={filterMovies} onSwitcherChange={filterMovies} />
+        <SearchForm
+          onSubmit={onSubmitSearchQuery}
+          onSwitcherChange={filterMoviesByDuration}
+          setSearchValue={setSearchValue}
+          isShortInit={false}
+          searchValue={searchValue}
+          type='saved'
+        />
         <Notification message={notificationMessage} />
         <MoviesCardList
           type='saved'

@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Movie, SavedMovie, SearchQuery } from '../../@types/types';
-import useMoviesWithPagination from '../../hooks/useMoviesWithPagination';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { SavedMovie } from '../../@types/types';
+import useMoviesApi from '../../hooks/useMoviesApi';
+import useMoviesFilter from '../../hooks/useMoviesFilter';
+import useMoviesPagination from '../../hooks/useMoviesPagination';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -15,55 +17,63 @@ interface MoviesProps {
 }
 
 const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
-  const [movies, setMovies] = useState<Array<Movie | SavedMovie>>([]);
-  const [defaultValues, setDefaultValues] = useState<{
-    [key: string]: string;
-  }>({});
-
-  const {
-    searchMoviesApi,
-    isLoading,
-    notificationMessage,
-    filteredMovies,
-    filterMovies,
-    showedMovies,
-    getMoreMovies,
-  } = useMoviesWithPagination(movies);
-
-  const getMoviesWithLikes = useCallback(
-    (allMovies: Array<Movie>) => {
-      const moviesWithLikes: Array<Movie | SavedMovie> = allMovies.map(
-        (movie) => {
-          if (savedMovies.has(movie.movieId)) {
-            return savedMovies.get(movie.movieId)!;
-          }
-          return movie;
-        }
-      );
-      return moviesWithLikes;
-    },
-    [savedMovies]
+  const [searchValue, setSearchValue] = useState<string>(
+    (() => {
+      const searchValueStringifyed = window.localStorage.getItem('searchValue');
+      if (searchValueStringifyed !== null) {
+        return JSON.parse(searchValueStringifyed);
+      }
+      return '';
+    })()
+  );
+  const isShortInit = useRef(
+    (() => {
+      const isShortStringifyed = window.localStorage.getItem('isShort');
+      if (isShortStringifyed !== null) {
+        return JSON.parse(isShortStringifyed);
+      }
+      return false;
+    })()
+  );
+  const [notificationMessage, setNotificationMessage] = useState<string>(
+    searchValue === '' ? 'Введите ключевое слово' : ''
   );
 
+  const { movies, searchMoviesApi, isLoading } = useMoviesApi(savedMovies);
+  const { filterMoviesByDuration, filteredMovies } = useMoviesFilter(
+    movies,
+    isShortInit.current
+  );
+  const { showedMovies, getMoreMovies, hasMoreMovies } =
+    useMoviesPagination(filteredMovies);
+
   useEffect(() => {
-    const storedMoviesString = window.localStorage.getItem('movies');
-    const queryString = window.localStorage.getItem('query');
-    if (storedMoviesString !== null && queryString !== null) {
-      const storedMovies: Array<Movie> = JSON.parse(storedMoviesString);
-      const query: { [key: string]: string } = JSON.parse(queryString);
-      setMovies(getMoviesWithLikes(storedMovies));
-      setDefaultValues(query);
+    if (searchValue !== '' && !isLoading) {
+      setNotificationMessage('');
+      if (showedMovies.length === 0) {
+        console.log('fire');
+        setNotificationMessage('Ничего не найдено');
+      }
     }
-  }, [getMoviesWithLikes]);
+  }, [showedMovies, searchValue]);
 
   const onSubmitSearchQuery = useCallback(
-    async (searchQuery: SearchQuery) => {
-      const newMovies = await searchMoviesApi(searchQuery);
-      if (newMovies !== null) {
-        setMovies(getMoviesWithLikes(newMovies));
+    async (searchValue: string) => {
+      setNotificationMessage('');
+      const result = await searchMoviesApi(searchValue);
+      if (result.status === 'failure') {
+        setNotificationMessage(result.message);
       }
     },
-    [getMoviesWithLikes, searchMoviesApi]
+    [searchMoviesApi]
+  );
+
+  const onSwitcherChange = useCallback(
+    (isShort: boolean) => {
+      window.localStorage.setItem('isShort', JSON.stringify(isShort));
+      filterMoviesByDuration(isShort);
+    },
+    [filterMoviesByDuration]
   );
 
   return (
@@ -72,8 +82,11 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
       <main className='movies__content'>
         <SearchForm
           onSubmit={onSubmitSearchQuery}
-          onSwitcherChange={filterMovies}
-          defaultValues={defaultValues}
+          onSwitcherChange={onSwitcherChange}
+          setSearchValue={setSearchValue}
+          isShortInit={isShortInit.current}
+          searchValue={searchValue}
+          type='all'
         />
         <Notification message={notificationMessage} />
         {isLoading ? (
@@ -87,10 +100,7 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
               <button
                 type='button'
                 className={`movies-list__load ${
-                  filteredMovies.length !== 0 &&
-                  filteredMovies.length !== showedMovies.length
-                    ? ''
-                    : 'movies-list__load_hide'
+                  hasMoreMovies() ? '' : 'movies-list__load_hide'
                 }`}
                 onClick={getMoreMovies}
               >

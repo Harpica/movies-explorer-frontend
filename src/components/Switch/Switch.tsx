@@ -12,7 +12,7 @@ const Switch: React.FC<SwitchProps> = ({ onChange, name, initialState }) => {
   const [isChecked, setIsChecked] = useState(initialState === 'true');
   const [switchValue, toggleSwitchValue] = useReducer(
     (state) => (state === 'false' ? 'true' : 'false'),
-    'true'
+    isChecked ? 'false' : 'true'
   );
   return (
     <div className='switch'>

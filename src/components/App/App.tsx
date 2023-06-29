@@ -40,6 +40,7 @@ const App = () => {
   useEffect(() => {
     if (isAuth === true) {
       (async () => {
+        setIsLoading(true);
         try {
           const movies = await mainApi.getUserSavedMovies();
           if (movies.length !== 0) {
@@ -51,6 +52,8 @@ const App = () => {
           }
         } catch (err) {
           console.log(err);
+        } finally {
+          setIsLoading(false);
         }
       })();
     }
