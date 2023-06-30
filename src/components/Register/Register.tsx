@@ -1,5 +1,6 @@
 import { User } from '../../@types/types';
 import { ROUTES } from '../../utils/constants';
+import { Validator } from '../../utils/validator';
 import Auth from '../Auth/Auth';
 
 const RegisterParams = {
@@ -12,6 +13,7 @@ const RegisterParams = {
     {
       name: 'name',
       label: 'Имя',
+      validator: new Validator({ required: true, minLength: 2, maxLength: 30 }),
       props: {
         required: true,
         minLength: 2,
@@ -22,6 +24,7 @@ const RegisterParams = {
     {
       name: 'email',
       label: 'E-mail',
+      validator: new Validator({ required: true, isEmail: true }),
       props: {
         required: true,
         type: 'email',
@@ -31,6 +34,7 @@ const RegisterParams = {
     {
       name: 'password',
       label: 'Пароль',
+      validator: new Validator({ required: true }),
       props: {
         required: true,
         type: 'password',

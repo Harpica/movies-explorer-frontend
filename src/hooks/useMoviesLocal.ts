@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Movie, SavedMovie } from '../@types/types';
 
 const useMoviesLocal = (
@@ -6,23 +6,24 @@ const useMoviesLocal = (
   searchValue: string
 ) => {
   const [movies, setMovies] = useState<Array<Movie | SavedMovie>>(allMovies);
-  const [filterValue, setFilterValue] = useState();
 
-  function searchMoviesLocal(searchValue: string) {
-    const filteredMovies = movies.filter((movie) =>
-      movie.nameRU.includes(searchValue)
-    );
-    setMovies(filteredMovies);
-  }
+  const searchMoviesLocal = useCallback(
+    (searchValue: string) => {
+      const filteredMovies = movies.filter((movie) =>
+        movie.nameRU.includes(searchValue)
+      );
+      setMovies(filteredMovies);
+    },
+    [movies]
+  );
 
   useEffect(() => {
-    console.log('useMoviesLocal');
     if (searchValue !== '') {
       searchMoviesLocal(searchValue);
       return;
     }
     setMovies(allMovies);
-  }, [allMovies, searchValue]);
+  }, [allMovies, searchValue, searchMoviesLocal]);
 
   return { movies, searchMoviesLocal };
 };

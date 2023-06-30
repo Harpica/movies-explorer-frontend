@@ -3,6 +3,7 @@ import { SavedMovie } from '../../@types/types';
 import useMoviesApi from '../../hooks/useMoviesApi';
 import useMoviesFilter from '../../hooks/useMoviesFilter';
 import useMoviesPagination from '../../hooks/useMoviesPagination';
+import { NOTIFICATIONS } from '../../utils/constants';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -36,7 +37,7 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
     })()
   );
   const [notificationMessage, setNotificationMessage] = useState<string>(
-    searchValue === '' ? 'Введите ключевое слово' : ''
+    searchValue === '' ? NOTIFICATIONS.enterKeyword : ''
   );
 
   const { movies, searchMoviesApi, isLoading } = useMoviesApi(savedMovies);
@@ -51,11 +52,10 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
     if (searchValue !== '' && !isLoading) {
       setNotificationMessage('');
       if (showedMovies.length === 0) {
-        console.log('fire');
-        setNotificationMessage('Ничего не найдено');
+        setNotificationMessage(NOTIFICATIONS.notFound);
       }
     }
-  }, [showedMovies, searchValue]);
+  }, [showedMovies, searchValue, isLoading]);
 
   const onSubmitSearchQuery = useCallback(
     async (searchValue: string) => {
@@ -87,6 +87,7 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
           isShortInit={isShortInit.current}
           searchValue={searchValue}
           type='all'
+          isLoading={isLoading}
         />
         <Notification message={notificationMessage} />
         {isLoading ? (

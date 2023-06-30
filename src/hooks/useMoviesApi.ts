@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Movie, MovieFromApi, SavedMovie } from '../@types/types';
 import movieApi from '../HTTP/MoviesApi';
+import { NOTIFICATIONS } from '../utils/constants';
 
 const useMoviesApi = (savedMovies: Map<number, SavedMovie>) => {
   const [movies, setMovies] = useState<Array<Movie | SavedMovie>>([]);
@@ -65,12 +66,11 @@ const useMoviesApi = (savedMovies: Map<number, SavedMovie>) => {
     try {
       const movies = await getMovies(searchValue);
       setMovies(getMoviesWithLikes(movies));
-      return { status: 'success', message: 'Успех' };
+      return { status: 'success', message: NOTIFICATIONS.success };
     } catch (err) {
       return {
         status: 'failure',
-        message:
-          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз',
+        message: NOTIFICATIONS.serverApiError,
       };
     } finally {
       setIsLoading(false);

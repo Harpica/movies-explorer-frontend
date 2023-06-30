@@ -43,17 +43,12 @@ export interface SavedMovie extends Omit<Movie, 'id'> {
 }
 
 export function typeOfSavedMovie(
-  movie: Movie | SavedMovie,
+  movie: Movie | SavedMovie
 ): movie is SavedMovie {
   if ('owner' in movie) {
     return true;
   }
   return false;
-}
-
-export interface SearchQuery {
-  searchValue: string;
-  isShort: boolean;
 }
 
 export type SwitchValue = 'true' | 'false';

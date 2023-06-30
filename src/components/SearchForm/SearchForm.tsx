@@ -1,6 +1,5 @@
-import { useRef, useState, useEffect } from 'react';
-import { SearchQuery, SwitchValue } from '../../@types/types';
-import Notification from '../Notification/Notification';
+import { useState } from 'react';
+import { NOTIFICATIONS } from '../../utils/constants';
 import Switch from '../Switch/Switch';
 import './SearchForm.css';
 
@@ -11,6 +10,7 @@ interface SearchFormProps {
   searchValue: string;
   isShortInit: boolean;
   type: 'saved' | 'all';
+  isLoading?: boolean;
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({
@@ -20,6 +20,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   searchValue,
   isShortInit,
   type,
+  isLoading,
 }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -31,7 +32,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     ) as HTMLInputElement;
     const searchValue = inputElement.value;
     if (searchValue === '' && type === 'all') {
-      setErrorMessage('Поисковый запрос должен содержать хотя бы 1 символ');
+      setErrorMessage(NOTIFICATIONS.lessThan1Symbol);
       return;
     }
     setSearchValue(searchValue);
@@ -59,11 +60,13 @@ const SearchForm: React.FC<SearchFormProps> = ({
             className='search__input'
             placeholder='Фильм'
             defaultValue={searchValue || ''}
+            disabled={isLoading}
           />
           <button
             type='submit'
             className='search__submit'
             aria-label='Найти фильмы'
+            disabled={isLoading}
           />
         </div>
         <p className='search__error'>{errorMessage}</p>

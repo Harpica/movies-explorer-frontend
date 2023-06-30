@@ -1,16 +1,18 @@
 import { useContext, useState } from 'react';
 import { User } from '../../@types/types';
+import mainApi from '../../HTTP/MainApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
+import { DEFAULT_USER } from '../../utils/constants';
 import EditPopup from '../EditPopup/EditPopup';
 import Header from '../Header/Header';
 import './Profile.css';
 
 interface ProfileProps {
-  logOut: () => void;
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
 }
 
-const Profile: React.FC<ProfileProps> = ({ logOut, setCurrentUser }) => {
+const Profile: React.FC<ProfileProps> = ({ setCurrentUser, setIsAuth }) => {
   const user = useContext(CurrentUserContext);
   const { name, email } = user;
   const [isEditPopupOpen, setIsEditPopupOpen] = useState<boolean>(false);
@@ -21,6 +23,17 @@ const Profile: React.FC<ProfileProps> = ({ logOut, setCurrentUser }) => {
 
   const closePopup = () => {
     setIsEditPopupOpen(false);
+  };
+
+  const logOut = async () => {
+    try {
+      await mainApi.logoutUser();
+      setIsAuth(false);
+      setCurrentUser(DEFAULT_USER);
+      window.localStorage.clear();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

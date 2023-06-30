@@ -59,21 +59,11 @@ const App = () => {
     }
   }, [isAuth]);
 
-  const logOut = async () => {
-    try {
-      await mainApi.logoutUser();
-      setIsAuth(false);
-      setCurrentUser(DEFAULT_USER);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return isLoading ? (
     <Preloader />
   ) : (
-    <BrowserRouter>
-      <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={currentUser}>
+      <BrowserRouter>
         <Routes>
           <Route path={ROUTES.main} element={<Main />} />
           <Route
@@ -127,14 +117,17 @@ const App = () => {
             path={ROUTES.profile}
             element={
               <ProtectedRouteElement statement={isAuth} redirect={ROUTES.main}>
-                <Profile logOut={logOut} setCurrentUser={setCurrentUser} />
+                <Profile
+                  setIsAuth={setIsAuth}
+                  setCurrentUser={setCurrentUser}
+                />
               </ProtectedRouteElement>
             }
           />
           <Route path='*' element={<NotFound />} />
         </Routes>
-      </CurrentUserContext.Provider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </CurrentUserContext.Provider>
   );
 };
 

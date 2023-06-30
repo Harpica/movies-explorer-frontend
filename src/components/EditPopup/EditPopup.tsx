@@ -2,6 +2,8 @@ import { useState, useCallback } from 'react';
 import { User } from '../../@types/types';
 import mainApi from '../../HTTP/MainApi';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
+import { getInputValidators } from '../../utils/utils';
+import { Validator } from '../../utils/validator';
 import FormField from '../FormField/FormField';
 import Popup, { PopupProps } from '../Popup/Popup';
 import './EditPopup.css';
@@ -10,6 +12,7 @@ const editFormParams = [
   {
     name: 'name',
     label: 'Имя',
+    validator: new Validator({ required: true, minLength: 2, maxLength: 30 }),
     props: {
       required: true,
       minLength: 2,
@@ -20,6 +23,7 @@ const editFormParams = [
   {
     name: 'email',
     label: 'E-mail',
+    validator: new Validator({ required: true, isEmail: true }),
     props: {
       required: true,
       type: 'email',
@@ -40,7 +44,7 @@ const EditPopup: React.FC<EditPopupProps> = ({
   isOpen,
 }) => {
   const { values, handleChange, errors, isValid, resetForm, ref } =
-    useFormWithValidation({
+    useFormWithValidation(getInputValidators(editFormParams), {
       name: user.name,
       email: user.email,
     });

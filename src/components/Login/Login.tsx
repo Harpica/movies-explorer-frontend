@@ -1,5 +1,6 @@
 import { User } from '../../@types/types';
 import { ROUTES } from '../../utils/constants';
+import { Validator } from '../../utils/validator';
 import Auth from '../Auth/Auth';
 
 const LoginParams = {
@@ -12,6 +13,7 @@ const LoginParams = {
     {
       name: 'email',
       label: 'E-mail',
+      validator: new Validator({ required: true, isEmail: true }),
       props: {
         required: true,
         type: 'email',
@@ -21,6 +23,7 @@ const LoginParams = {
     {
       name: 'password',
       label: 'Пароль',
+      validator: new Validator({ required: true }),
       props: {
         required: true,
         type: 'password',

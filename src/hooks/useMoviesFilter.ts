@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Movie, SavedMovie } from '../@types/types';
+import { IS_SHORT_DURATION } from '../utils/constants';
 
 const useMoviesFilter = (
   movies: Array<Movie | SavedMovie>,
@@ -14,7 +15,10 @@ const useMoviesFilter = (
     (isShort: boolean) => {
       isShortFilter.current = isShort;
       setFilteredMovies(
-        movies.filter((movie) => (isShort && movie.duration <= 40) || !isShort)
+        movies.filter(
+          (movie) =>
+            (isShort && movie.duration <= IS_SHORT_DURATION) || !isShort
+        )
       );
     },
     [movies]

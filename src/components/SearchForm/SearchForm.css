@@ -82,6 +82,10 @@
 .search__submit:hover {
   background-color: var(--color-green);
 }
+.search__submit:disabled {
+  background-color: var(--color-green);
+  cursor: default;
+}
 
 @media screen and (max-width: 1023px) {
   .search__form {

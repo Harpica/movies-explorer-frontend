@@ -3,7 +3,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { User, UserCredentials } from '../../@types/types';
 import mainApi from '../../HTTP/MainApi';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
-import { ROUTES } from '../../utils/constants';
+import { NOTIFICATIONS, ROUTES } from '../../utils/constants';
+import { getInputValidators } from '../../utils/utils';
+import { Validator } from '../../utils/validator';
 import FormField from '../FormField/FormField';
 import Logo from '../Logo/Logo';
 import './Auth.css';
@@ -18,6 +20,7 @@ interface AuthProps {
   form: Array<{
     name: string;
     label: string;
+    validator: Validator;
     props: React.InputHTMLAttributes<HTMLInputElement>;
   }>;
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,9 +38,9 @@ const Auth: React.FC<AuthProps> = ({
   setIsAuth,
   setCurrentUser,
 }) => {
-  const {
-    values, handleChange, errors, isValid, ref,
-  } = useFormWithValidation();
+  const { values, handleChange, errors, isValid, ref } = useFormWithValidation(
+    getInputValidators(form)
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [apiErrorMessage, setApiErrorMessage] = useState<string>('');
 
@@ -61,12 +64,12 @@ const Auth: React.FC<AuthProps> = ({
           setApiErrorMessage(err.message);
           return;
         }
-        setApiErrorMessage('Что-то пошло не так :С');
+        setApiErrorMessage(NOTIFICATIONS.serverApiError);
       } finally {
         setIsLoading(false);
       }
     },
-    [setIsAuth, setCurrentUser, navigate, type],
+    [setIsAuth, setCurrentUser, navigate, type]
   );
 
   return (
