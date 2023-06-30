@@ -66,6 +66,12 @@ const useMoviesApi = (savedMovies: Map<number, SavedMovie>) => {
     try {
       const movies = await getMovies(searchValue);
       setMovies(getMoviesWithLikes(movies));
+      if (movies.length === 0) {
+        return {
+          status: 'failure',
+          message: NOTIFICATIONS.notFound,
+        };
+      }
       return { status: 'success', message: NOTIFICATIONS.success };
     } catch (err) {
       return {

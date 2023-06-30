@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Movie, SavedMovie } from '../@types/types';
-import { IS_SHORT_DURATION } from '../utils/constants';
+import { IS_SHORT_DURATION, NOTIFICATIONS } from '../utils/constants';
 
 const useMoviesFilter = (
   movies: Array<Movie | SavedMovie>,
@@ -14,12 +14,20 @@ const useMoviesFilter = (
   const filterMoviesByDuration = useCallback(
     (isShort: boolean) => {
       isShortFilter.current = isShort;
-      setFilteredMovies(
-        movies.filter(
-          (movie) =>
-            (isShort && movie.duration <= IS_SHORT_DURATION) || !isShort
-        )
+      const filteredMovies = movies.filter(
+        (movie) => (isShort && movie.duration <= IS_SHORT_DURATION) || !isShort
       );
+      setFilteredMovies(filteredMovies);
+      if (filteredMovies.length === 0) {
+        return {
+          status: 'failure',
+          message: NOTIFICATIONS.notFound,
+        };
+      }
+      return {
+        status: 'success',
+        message: NOTIFICATIONS.success,
+      };
     },
     [movies]
   );

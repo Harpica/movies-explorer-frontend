@@ -4,6 +4,7 @@ import useMoviesApi from '../../hooks/useMoviesApi';
 import useMoviesFilter from '../../hooks/useMoviesFilter';
 import useMoviesPagination from '../../hooks/useMoviesPagination';
 import { NOTIFICATIONS } from '../../utils/constants';
+import { getLocalStorageValue } from '../../utils/utils';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -18,23 +19,11 @@ interface MoviesProps {
 }
 
 const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
-  const [searchValue, setSearchValue] = useState<string>(
-    (() => {
-      const searchValueStringifyed = window.localStorage.getItem('searchValue');
-      if (searchValueStringifyed !== null) {
-        return JSON.parse(searchValueStringifyed);
-      }
-      return '';
-    })()
+  const [searchValue, setSearchValue] = useState<string>(() =>
+    getLocalStorageValue<string>('searchValue', '')
   );
   const isShortInit = useRef(
-    (() => {
-      const isShortStringifyed = window.localStorage.getItem('isShort');
-      if (isShortStringifyed !== null) {
-        return JSON.parse(isShortStringifyed);
-      }
-      return false;
-    })()
+    (() => getLocalStorageValue<boolean>('isShort', false))()
   );
   const [notificationMessage, setNotificationMessage] = useState<string>(
     searchValue === '' ? NOTIFICATIONS.enterKeyword : ''
@@ -47,15 +36,6 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
   );
   const { showedMovies, getMoreMovies, hasMoreMovies } =
     useMoviesPagination(filteredMovies);
-
-  useEffect(() => {
-    if (searchValue !== '' && !isLoading) {
-      setNotificationMessage('');
-      if (showedMovies.length === 0) {
-        setNotificationMessage(NOTIFICATIONS.notFound);
-      }
-    }
-  }, [showedMovies, searchValue, isLoading]);
 
   const onSubmitSearchQuery = useCallback(
     async (searchValue: string) => {
@@ -70,8 +50,12 @@ const Movies: React.FC<MoviesProps> = ({ savedMovies, setSavedMovies }) => {
 
   const onSwitcherChange = useCallback(
     (isShort: boolean) => {
+      setNotificationMessage('');
       window.localStorage.setItem('isShort', JSON.stringify(isShort));
-      filterMoviesByDuration(isShort);
+      const result = filterMoviesByDuration(isShort);
+      if (result.status === 'failure') {
+        setNotificationMessage(result.message);
+      }
     },
     [filterMoviesByDuration]
   );

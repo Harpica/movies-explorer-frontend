@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Movie, SavedMovie } from '../@types/types';
+import { NOTIFICATIONS } from '../utils/constants';
 
 const useMoviesLocal = (
   allMovies: Array<Movie | SavedMovie>,
@@ -13,6 +14,16 @@ const useMoviesLocal = (
         movie.nameRU.includes(searchValue)
       );
       setMovies(filteredMovies);
+      if (filteredMovies.length === 0) {
+        return {
+          status: 'failure',
+          message: NOTIFICATIONS.notFound,
+        };
+      }
+      return {
+        status: 'success',
+        message: NOTIFICATIONS.success,
+      };
     },
     [movies]
   );

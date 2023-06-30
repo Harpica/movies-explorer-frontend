@@ -27,3 +27,11 @@ export const getInputValidators = (
     {}
   );
 };
+
+export const getLocalStorageValue = <T>(key: string, fallbackValue: T) => {
+  const valueStringifyed = window.localStorage.getItem(key);
+  if (valueStringifyed !== null) {
+    return JSON.parse(valueStringifyed) as T;
+  }
+  return fallbackValue;
+};

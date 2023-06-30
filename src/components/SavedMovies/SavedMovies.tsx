@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { SavedMovie } from '../../@types/types';
 import useMoviesFilter from '../../hooks/useMoviesFilter';
 import useMoviesLocal from '../../hooks/useMoviesLocal';
@@ -30,18 +30,25 @@ const SavedMovies: React.FC<SavedMoviesProps> = ({
     false
   );
 
-  useEffect(() => {
-    setNotificationMessage('');
-    if (filteredMovies.length === 0) {
-      setNotificationMessage('Ничего не найдено');
-    }
-  }, [filteredMovies, searchValue]);
-
   const onSubmitSearchQuery = useCallback(
     (searchValue: string) => {
-      searchMoviesLocal(searchValue);
+      const result = searchMoviesLocal(searchValue);
+      if (result.status === 'failure') {
+        setNotificationMessage(result.message);
+      }
     },
     [searchMoviesLocal]
+  );
+
+  const onSwitcherChange = useCallback(
+    (isShort: boolean) => {
+      setNotificationMessage('');
+      const result = filterMoviesByDuration(isShort);
+      if (result.status === 'failure') {
+        setNotificationMessage(result.message);
+      }
+    },
+    [filterMoviesByDuration]
   );
 
   return (
@@ -50,7 +57,7 @@ const SavedMovies: React.FC<SavedMoviesProps> = ({
       <div className='saved-movies__content'>
         <SearchForm
           onSubmit={onSubmitSearchQuery}
-          onSwitcherChange={filterMoviesByDuration}
+          onSwitcherChange={onSwitcherChange}
           setSearchValue={setSearchValue}
           isShortInit={false}
           searchValue={searchValue}
