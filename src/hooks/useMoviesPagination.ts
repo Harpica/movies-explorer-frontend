@@ -3,13 +3,15 @@ import { Movie, SavedMovie } from '../@types/types';
 import { findCardsGridCongig } from '../utils/utils';
 
 const useMoviesPagination = (movies: Array<Movie | SavedMovie>) => {
-  const [showedMovies, setShowedMovies] =
-    useState<Array<SavedMovie | Movie>>(movies);
   const [cardsGridConfig, setCardsGridConfig] = useState<{
     init: number;
     add: number;
   }>(() => findCardsGridCongig(window.innerWidth));
-  const [lastIndex, setLastIndex] = useState(cardsGridConfig.init);
+  const [lastIndex, setLastIndex] = useState(() => cardsGridConfig.init);
+  const [showedMovies, setShowedMovies] = useState<Array<SavedMovie | Movie>>(
+    []
+  );
+
   function getHandleResizeFunction() {
     let timeId: NodeJS.Timeout;
     function updateConfig() {
@@ -29,9 +31,6 @@ const useMoviesPagination = (movies: Array<Movie | SavedMovie>) => {
         ? cardsGridConfig.add
         : cardsGridConfig.add + cardsGridConfig.add - reminder;
 
-    setShowedMovies(
-      showedMovies.concat(movies.slice(lastIndex, lastIndex + amoutOfNewMovies))
-    );
     setLastIndex(lastIndex + amoutOfNewMovies);
   }
 
@@ -40,8 +39,8 @@ const useMoviesPagination = (movies: Array<Movie | SavedMovie>) => {
   }
 
   useEffect(() => {
-    setShowedMovies(movies.slice(0, cardsGridConfig.init));
-  }, [movies, cardsGridConfig.init]);
+    setShowedMovies(movies.slice(0, lastIndex));
+  }, [movies, lastIndex]);
 
   useEffect(() => {
     const updateConfig = getHandleResizeFunction();
