@@ -1,0 +1,54 @@
+.promo {
+  background-color: var(--color-pink);
+  display: flex;
+  justify-content: center;
+}
+
+.promo__container {
+  max-width: 1280px;
+  width: 100%;
+}
+
+.promo__title-container {
+  box-sizing: border-box;
+  min-height: 320px;
+  margin: 82px 0 122px;
+  background-image: url(../../images/Practicum.svg);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.promo__title {
+  box-sizing: border-box;
+  max-width: 730px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1.16;
+  margin: 0;
+  padding: 10px;
+  letter-spacing: -0.04em;
+}
+
+@media screen and (max-width: 1023px) {
+  .promo__title-container {
+    margin: 224px 0 240px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .promo__title {
+    font-size: 31px;
+    line-height: 1.26;
+    padding: 0;
+  }
+
+  .promo__title-container {
+    margin: 142px 0 180px;
+    min-height: 248px;
+  }
+}

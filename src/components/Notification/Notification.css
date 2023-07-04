@@ -1,0 +1,10 @@
+.notification {
+  display: block;
+  margin: 15px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.notification_hidden {
+  display: none;
+}

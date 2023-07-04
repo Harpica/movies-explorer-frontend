@@ -1,0 +1,32 @@
+.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: 0.4s;
+}
+
+.popup_opened {
+  visibility: visible;
+  opacity: 1;
+}
+.popup_closed {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.popup__content {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

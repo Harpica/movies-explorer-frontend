@@ -1,0 +1,135 @@
+.auth {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth__container {
+  max-width: 396px;
+  min-height: 560px;
+  width: 100%;
+  margin: 70px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth__title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  margin: 40px 0;
+}
+
+.form {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.form__fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.form__api-error {
+  margin: 0;
+  font-size: 14px;
+  text-align: center;
+  color: var(--color-red);
+}
+
+.form__button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form__submit {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  min-height: 45px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.form__submit:hover {
+  opacity: 0.5;
+}
+
+.form__submit:disabled {
+  border: 1px solid black;
+  background-color: white;
+  color: black;
+  cursor: default;
+}
+
+.form__submit:disabled:hover {
+  opacity: 1;
+}
+
+.form__link-container {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.form__link-description {
+  margin: 0;
+  color: var(--color-gray-text);
+}
+
+.form__link {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.4s;
+}
+
+.form__link:hover {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 767px) {
+  .auth {
+    align-items: stretch;
+  }
+  .auth__container {
+    margin: 56px 30px 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  .auth__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .auth__title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    margin: 50px 0 80px;
+    text-align: center;
+  }
+  .form__submit {
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .form__link-container {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

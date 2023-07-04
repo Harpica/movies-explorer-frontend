@@ -1,0 +1,18 @@
+.heart__path {
+  fill: transparent;
+  transition: 0.4s;
+}
+
+.heart:hover .heart__path {
+  stroke: var(--color-red);
+  fill: var(--color-red);
+}
+
+.heart_active .heart__path {
+  stroke: var(--color-red);
+  fill: var(--color-red);
+}
+
+.heart_active:hover .heart__path {
+  opacity: 0.5;
+}

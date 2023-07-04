@@ -1,0 +1,112 @@
+.search {
+  display: flex;
+  justify-content: center;
+}
+
+.search__form {
+  box-sizing: border-box;
+  max-width: 1280px;
+  width: 100%;
+  padding: 80px 70px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search__devider {
+  width: 100%;
+  padding: 0 0 39px;
+  border-bottom: 1px solid var(--color-gray-e8);
+}
+
+.search__input-container {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 28px;
+}
+
+.search__error {
+  color: var(--color-red);
+  font-size: 12px;
+  min-height: 14px;
+  margin: -20px 0 20px;
+  text-align: center;
+}
+
+.search__input {
+  box-sizing: border-box;
+  flex: auto;
+  padding: 16px 20px;
+  background-color: var(--color-gray-f9);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.29;
+  color: var(--color-gray-text);
+  border: none;
+  border-radius: 8px;
+  outline: 2px solid transparent;
+  transition: opacity 0.4s, outline 0.4s;
+}
+
+.search__input:hover {
+  outline: 2px solid var(--color-green);
+}
+
+.search__input:hover.search__input:focus-visible {
+  opacity: 0.7;
+  outline: 2px solid var(--color-green);
+}
+
+.search__input:focus-visible {
+  outline: 2px groove var(--color-green);
+}
+
+.search__submit {
+  background-image: url('../../images/Search.svg');
+  background-position: 50%;
+  background-color: black;
+  border: none;
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.search__submit:hover {
+  background-color: var(--color-green);
+}
+.search__submit:disabled {
+  background-color: var(--color-green);
+  cursor: default;
+}
+
+@media screen and (max-width: 1023px) {
+  .search__form {
+    padding: 80px 30px 40px;
+  }
+  .search__input-container {
+    margin: 0 0 40px;
+  }
+  .search__form {
+    padding-bottom: 0px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .search__form {
+    padding: 76px 14px 0px;
+  }
+  .search__input-container {
+    margin: 0 0 46px;
+  }
+  .search__input {
+    padding: 13px;
+  }
+}
